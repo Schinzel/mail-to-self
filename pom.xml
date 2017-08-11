@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.schinzel</groupId>
+    <artifactId>mail-to-self</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <deploy-repo>maven-repo.schinzel.io</deploy-repo>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>maven-repo.schinzel.io</id>
+            <url>http://maven-repo.schinzel.io/release</url>
+        </repository>
+        <repository>
+            <id>maven-repo.atexpose.com</id>
+            <url>http://maven-repo.atexpose.com/release</url>
+        </repository>
+    </repositories>
+
+
+    <dependencies>
+        <dependency>
+            <!-- Annotations that generates getters, setters and more that
+            are not visible in source code.
+            https://projectlombok.org/index.html -->
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.schinzel</groupId>
+            <artifactId>basic-utils</artifactId>
+            <version>1.27</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atexpose</groupId>
+            <artifactId>atexpose</artifactId>
+            <version>0.9.28</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
