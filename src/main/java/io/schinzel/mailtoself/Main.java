@@ -15,8 +15,9 @@ public class Main {
         System.out.println("****       -= Mail To Self =-      ****");
         System.out.println("****                               ****");
         System.out.println("***************************************");
-        AtExpose.create()
-                .startCLI()
+        AtExpose atExpose = AtExpose.create();
+       // atExpose.getAPI().expose(Sender.class);
+        atExpose.startCLI()
                 .getWebServerBuilder()
                 .port(5555)
                 .accessLevel(1)
@@ -24,6 +25,7 @@ public class Main {
                 .webServerDir("website")
                 .startWebServer()
                 .addLogger(getEventLogger());
+
     }
 
 
