@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-        "use strict";
-
         function submitForm() {
-            var mailContent = document.getElementById("mailContent").value;
-            console.log("mailContent: '" + mailContent + "'");
             var xhr = new XMLHttpRequest();
             xhr.onload = function () {
                 alert(xhr.responseText);
             }
             xhr.open("post", "call/mailMe", true);
-            xhr.send("Message="+mailContent);
-
+            var mailContent = document.getElementById("mailContent").value;
+            console.log("mailContent: '" + mailContent + "'");
+            xhr.send("Message=" + mailContent);
         }
     </script>
 
@@ -24,6 +21,7 @@
 <h1>Hej!</h1>
 
 <textarea id="mailContent" rows="4" cols="50" placeholder="Mail content here..."></textarea>
+<br>
 <button type="button" onClick="javascript:submitForm();">Click Me!</button>
 
 <br>
