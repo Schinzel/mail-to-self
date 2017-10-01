@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        "use strict";
+
+        function submitForm() {
+            var mailContent = document.getElementById("mailContent").value;
+            console.log("mailContent: '" + mailContent + "'");
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                alert(xhr.responseText);
+            }
+            xhr.open("post", "call/mailMe", true);
+            xhr.send("Message="+mailContent);
+
+        }
+    </script>
+
 </head>
 <body>
 <h1>Hej!</h1>
-<textarea rows="4" cols="50" placeholder="Mail content here...">
-</textarea>
+
+<textarea id="mailContent" rows="4" cols="50" placeholder="Mail content here..."></textarea>
+<button type="button" onClick="javascript:submitForm();">Click Me!</button>
+
 <br>
-<button type="button">Click Me!</button>
 </body>
 </html>

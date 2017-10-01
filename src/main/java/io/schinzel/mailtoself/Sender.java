@@ -11,7 +11,7 @@ public class Sender {
             requiredArgumentCount = 1,
             requiredAccessLevel = 1,
             arguments = {"Message"})
-    static String sendMail(String message) {
-        return "Mail sent";
+    static String mailMe(String message) {
+        return "Mail sent: '" + message + "'";
     }
 }

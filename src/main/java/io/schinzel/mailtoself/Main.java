@@ -16,7 +16,8 @@ public class Main {
         System.out.println("****                               ****");
         System.out.println("***************************************");
         AtExpose atExpose = AtExpose.create();
-        atExpose.getAPI().expose(Sender.class);
+        atExpose.getAPI()
+                .expose(Sender.class);
         atExpose.startCLI()
                 .getWebServerBuilder()
                 .port(5555)
