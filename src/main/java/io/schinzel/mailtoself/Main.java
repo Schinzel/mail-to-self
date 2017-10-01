@@ -16,7 +16,7 @@ public class Main {
         System.out.println("****                               ****");
         System.out.println("***************************************");
         AtExpose atExpose = AtExpose.create();
-       // atExpose.getAPI().expose(Sender.class);
+        atExpose.getAPI().expose(Sender.class);
         atExpose.startCLI()
                 .getWebServerBuilder()
                 .port(5555)
@@ -32,8 +32,8 @@ public class Main {
     private static Logger getEventLogger() {
         return Logger.builder()
                 .loggerType(LoggerType.EVENT)
-                .logFormatter(LogFormatterFactory.JSON.getInstance())
-                .logWriter(LogWriterFactory.SYSTEM_OUT.getInstance())
+                .logFormatter(LogFormatterFactory.JSON.create())
+                .logWriter(LogWriterFactory.SYSTEM_OUT.create())
                 .build();
     }
 }
