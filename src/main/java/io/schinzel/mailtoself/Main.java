@@ -17,7 +17,7 @@ public class Main {
         System.out.println("***************************************");
         AtExpose atExpose = AtExpose.create();
         atExpose.getAPI()
-                .expose(Sender.class);
+                .expose(new Sender());
         atExpose.startCLI()
                 .getWebServerBuilder()
                 .port(5555)
@@ -26,7 +26,6 @@ public class Main {
                 .webServerDir("website")
                 .startWebServer()
                 .addLogger(getEventLogger());
-
     }
 
 
