@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Mail To Self</title>
     <script>
-        function submitForm() {
+        function send() {
             var xhr = new XMLHttpRequest();
             xhr.onload = function () {
                 alert(xhr.responseText);
@@ -22,7 +22,7 @@
 
 <textarea id="mailContent" rows="4" cols="50" placeholder="Mail content here..."></textarea>
 <br>
-<button type="button" onClick="javascript:submitForm();">Click Me!</button>
+<button type="button" onClick="javascript:send();">Click Me!</button>
 
 <br>
 </body>

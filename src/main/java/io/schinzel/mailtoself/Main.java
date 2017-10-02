@@ -5,6 +5,7 @@ import com.atexpose.dispatcher.logging.Logger;
 import com.atexpose.dispatcher.logging.LoggerType;
 import com.atexpose.dispatcher.logging.format.LogFormatterFactory;
 import com.atexpose.dispatcher.logging.writer.LogWriterFactory;
+import io.schinzel.basicutils.configvar.ConfigVar;
 
 public class Main {
 
@@ -20,7 +21,7 @@ public class Main {
                 .expose(new Sender());
         atExpose.startCLI()
                 .getWebServerBuilder()
-                .port(5555)
+                .port(Integer.valueOf(ConfigVar.create(".env").getValue("PORT")))
                 .accessLevel(1)
                 .cacheFilesInRAM(false)
                 .webServerDir("website")
