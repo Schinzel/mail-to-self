@@ -9,6 +9,7 @@ import io.schinzel.basicutils.configvar.ConfigVar;
  * The purpose of this class is to send mails
  */
 public class Sender {
+    private static final int SUBJECT_MAX_LENGTH = 20;
     private final IEmailSender emailSender;
 
 
@@ -25,7 +26,10 @@ public class Sender {
             requiredAccessLevel = 1,
             arguments = {"Message"})
     String mailMe(String message) {
-        emailSender.send("henrik@schinzel.se", "Sub", "Kropp", "Schinzel");
+        String subject = message.length() > SUBJECT_MAX_LENGTH
+                ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
+                : message;
+        emailSender.send("henrik@schinzel.se", subject, message, "Schinzel");
         return "Mail sent: '" + message + "'";
     }
 }
