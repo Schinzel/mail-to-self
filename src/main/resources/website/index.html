@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <head>
-    <meta charset="UTF-8">
     <title>Mail To Self</title>
     <script>
         function send() {
@@ -12,7 +14,10 @@
                 document.getElementById("mailContent").focus();
             }
             xhr.open("post", "call/mailMe", true);
+            //The the text to email
             var mailContent = document.getElementById("mailContent").value;
+            //Encode so that can send special chars like swedish chars
+            mailContent = encodeURIComponent(mailContent);
             console.log("mailContent: '" + mailContent + "'");
             xhr.send("Message=" + mailContent);
         }
