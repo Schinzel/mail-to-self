@@ -7,7 +7,9 @@
         function send() {
             var xhr = new XMLHttpRequest();
             xhr.onload = function () {
+                document.getElementById("mailContent").value = "";
                 alert(xhr.responseText);
+                document.getElementById("mailContent").focus();
             }
             xhr.open("post", "call/mailMe", true);
             var mailContent = document.getElementById("mailContent").value;
@@ -20,7 +22,7 @@
 <body>
 <h1>Mail To Self</h1>
 
-<textarea id="mailContent" rows="4" cols="50" placeholder="Mail content here..."></textarea>
+<textarea id="mailContent" rows="2" cols="20" placeholder="Mail content here..."></textarea>
 <br>
 <button type="button" onClick="javascript:send();">Click Me!</button>
 
