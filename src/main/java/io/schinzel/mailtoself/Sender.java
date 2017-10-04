@@ -29,7 +29,8 @@ public class Sender {
         String subject = message.length() > SUBJECT_MAX_LENGTH
                 ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
                 : message;
-        emailSender.send("henrik@schinzel.se", subject, message, "Schinzel");
+        Runnable r = () ->  emailSender.send("henrik@schinzel.se", subject, message, "Schinzel");
+        new Thread(r, "email-send-thread").start();
         return "Mail sent: '" + message + "'";
     }
 }
