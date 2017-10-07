@@ -8,17 +8,23 @@
 <script>
     <!--#include file="shared.js" -->
 
+    /**
+     * Send email to self
+     */
     function send() {
+        //The the text to email
+        var mailContent = document.getElementById("mailContent").value;
+        //If the was not message to send
+        if (!mailContent) {
+            return;
+        }
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             document.getElementById("mailContent").value = "";
-            notify(xhr.responseText)
+            notify(xhr.responseText);
             document.getElementById("mailContent").focus();
-        }
+        };
         xhr.open("post", "/call/mailMe", true);
-        //The the text to email
-        var mailContent = document.getElementById("mailContent").value;
-        console.log("mailContent: '" + mailContent + "'");
         xhr.send(
             "Message=" + encodeURIComponent(mailContent)
             + "&Username=" + encodeURIComponent(localStorage.getItem("username"))
@@ -26,10 +32,16 @@
         );
     }
 
+    /**
+     * Init page
+     */
     function init() {
         document.getElementById("mailContent").focus();
+        //If either username or password is missing
         if (!localStorage.getItem("username") || !localStorage.getItem("password")) {
+            //Alert user
             alert("Settings missing. Set Gmail username and password.");
+            //Go to settings page
             window.location.href = "settings.html";
         }
     }
@@ -41,14 +53,10 @@
 <h1>Mail To Self</h1>
 
 <input type="text" id="mailContent" placeholder="Mail content here...">
-<br>
-<br>
-<button type="button" onClick="javascript:send();">Send</button>
 
-<br><br><br>
+<button type="button" onClick="send();">SEND</button>
+
 <a href="settings.html">Settings</a>
-<script>
-    init();
-</script>
+<script>init();</script>
 </body>
 </html>

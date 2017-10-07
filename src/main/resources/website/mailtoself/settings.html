@@ -13,10 +13,10 @@
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             saveToLocalStorage(xhr.responseText);
-        }
+        };
         xhr.open("post", "/call/encryptPassword", true);
         //Encode so that can send special chars like swedish chars
-        mailContent = encodeURIComponent(password);
+        var mailContent = encodeURIComponent(password);
         xhr.send("Password=" + mailContent);
     }
 
@@ -30,8 +30,7 @@
 
 
     function init() {
-        var username = localStorage.getItem("username");
-        document.getElementById("username").value = username;
+        document.getElementById("username").value = localStorage.getItem("username");
     }
 
 </script>
@@ -39,19 +38,14 @@
 
 <body>
 <h1>Settings</h1>
-<br>
-Gmail Username
-<br>
-<input type="text" id="username">
-<br>
-<br>
-Gmail Password
-<br>
-<input type="password" id="password">
-<br>
-<button type="button" onClick="javascript:saveSettings();">Save</button>
 
-<br><br><br>
+<label for="username">Gmail Username</label>
+<input type="text" id="username">
+
+<label for="password">Gmail Password</label>
+<input type="password" id="password">
+
+<button type="button" onClick="saveSettings();">SAVE</button>
 <a href="index.html">Back</a>
 <script>init();</script>
 </body>
