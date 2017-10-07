@@ -23,10 +23,6 @@
 
 <script>
     function send() {
-        var username = localStorage.getItem("username");
-        var fromName = localStorage.getItem("fromName");
-        var password = localStorage.getItem("password");
-
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             document.getElementById("mailContent").value = "";
@@ -39,10 +35,17 @@
         console.log("mailContent: '" + mailContent + "'");
         xhr.send(
             "Message=" + encodeURIComponent(mailContent)
-            + "&Username=" + encodeURIComponent(username)
-            + "&FromName=" + encodeURIComponent(fromName)
-            + "&Password=" + encodeURIComponent(password)
+            + "&Username=" + encodeURIComponent(localStorage.getItem("username"))
+            + "&Password=" + encodeURIComponent(localStorage.getItem("password"))
         );
+    }
+
+    function init(){
+        document.getElementById("mailContent").focus();
+        if (!localStorage.getItem("username") || !localStorage.getItem("password")){
+            alert("Settings missing. Set Gmail username and password.");
+            window.location.href = "settings.html";
+        }
     }
 </script>
 
@@ -58,7 +61,7 @@
 <br><br><br>
 <a href="settings.html">Settings</a>
 <script>
-    document.getElementById("mailContent").focus();
+    init();
 </script>
 </body>
 </html>

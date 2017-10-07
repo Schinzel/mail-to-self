@@ -37,17 +37,14 @@
 
     function saveToLocalStorage(encryptedPassword) {
         var username = document.getElementById("username").value;
-        var fromName = document.getElementById("fromName").value;
         localStorage.setItem("username", username);
         localStorage.setItem("password", encryptedPassword);
-        localStorage.setItem("fromName", fromName);
     }
+
 
     function init() {
         var username = localStorage.getItem("username");
-        var fromName = localStorage.getItem("fromName");
         document.getElementById("username").value = username;
-        document.getElementById("fromName").value = fromName;
     }
 
 </script>
@@ -56,15 +53,12 @@
 <body>
 <h1>Settings</h1>
 <br>
-Username
+Gmail Username
 <br>
 <input type="text" id="username">
 <br>
-Sender name
 <br>
-<input type="text" id="fromName">
-<br>
-Password
+Gmail Password
 <br>
 <input type="password" id="password">
 <br>

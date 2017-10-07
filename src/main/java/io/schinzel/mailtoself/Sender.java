@@ -25,10 +25,10 @@ public class Sender {
 
 
     @Expose(
-            requiredArgumentCount = 4,
+            requiredArgumentCount = 3,
             requiredAccessLevel = 1,
-            arguments = {"Message", "Username", "FromName", "Password"})
-    String mailMe(String message, String username, String fromName, String password) {
+            arguments = {"Message", "Username", "Password"})
+    String mailMe(String message, String username, String password) {
         String subject = message.length() > SUBJECT_MAX_LENGTH
                 ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
                 : message;
@@ -37,7 +37,7 @@ public class Sender {
             mEmailSender = new GmailEmailSender(username, clearTextPassword);
         }
         Runnable r = () -> {
-            mEmailSender.send(username, subject, message, fromName);
+            mEmailSender.send(username, subject, message, "Me");
         };
         new Thread(r, "email-send-thread").start();
         return "Mail sent: '" + message + "'";
