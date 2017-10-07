@@ -7,7 +7,7 @@ body {
 h1 {
     color: maroon;
 }
-input[type=text], select {
+input[type=text], input[type=password], select {
     width: 80%;
     padding: 32px 20px;
     margin: 8px 0;

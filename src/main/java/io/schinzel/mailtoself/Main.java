@@ -24,7 +24,7 @@ public class Main {
                 .port(Integer.valueOf(ConfigVar.create(".env").getValue("PORT")))
                 .accessLevel(1)
                 .cacheFilesInRAM(false)
-                .webServerDir("website")
+                .webServerDir("website/mailtoself")
                 .startWebServer()
                 .addLogger(getEventLogger());
     }
