@@ -1,72 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
-<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
-<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
-<style>
-    body {
-        background-color: linen;
-        text-align: center;
-        font-family: verdana;
-    }
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png"/>
 
-    h1 {
-        color: maroon;
-    }
-    input[type=text], select {
-        width: 80%;
-        padding: 32px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 16px;
-    }
-
-    button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
-</style>
 <head>
     <title>Mail To Self</title>
-    <script>
-        function send() {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                document.getElementById("mailContent").value = "";
-                alert(xhr.responseText);
-                document.getElementById("mailContent").focus();
-            }
-            xhr.open("post", "call/mailMe", true);
-            //The the text to email
-            var mailContent = document.getElementById("mailContent").value;
-            //Encode so that can send special chars like swedish chars
-            mailContent = encodeURIComponent(mailContent);
-            console.log("mailContent: '" + mailContent + "'");
-            xhr.send("Message=" + mailContent);
-        }
-
-    </script>
-
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
+
+<script>
+    function send() {
+        var username = localStorage.getItem("username");
+        var fromName = localStorage.getItem("fromName");
+        var password = localStorage.getItem("password");
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            document.getElementById("mailContent").value = "";
+            alert(xhr.responseText);
+            document.getElementById("mailContent").focus();
+        }
+        xhr.open("post", "/call/mailMe", true);
+        //The the text to email
+        var mailContent = document.getElementById("mailContent").value;
+        console.log("mailContent: '" + mailContent + "'");
+        xhr.send(
+            "Message=" + encodeURIComponent(mailContent)
+            + "&Username=" + encodeURIComponent(username)
+            + "&FromName=" + encodeURIComponent(fromName)
+            + "&Password=" + encodeURIComponent(password)
+        );
+    }
+</script>
+
+
 <body>
 <h1>Mail To Self</h1>
 
@@ -75,7 +55,8 @@
 <br>
 <button type="button" onClick="javascript:send();">Send</button>
 
-<br>
+<br><br><br>
+<a href="settings.html">Settings</a>
 <script>
     document.getElementById("mailContent").focus();
 </script>

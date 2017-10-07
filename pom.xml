@@ -37,11 +37,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.schinzel</groupId>
-            <artifactId>basic-utils</artifactId>
-            <version>1.30</version>
-        </dependency>
-        <dependency>
             <groupId>com.atexpose</groupId>
             <artifactId>atexpose</artifactId>
             <version>0.9.30</version>
