@@ -19,11 +19,16 @@ public class Main {
         AtExpose atExpose = AtExpose.create();
         atExpose.getAPI()
                 .expose(new Sender());
+        boolean isProduction = ConfigVar.create(".env")
+                .getValue("ENVIRONMENT")
+                .equalsIgnoreCase("production");
+        int port = Integer.valueOf(ConfigVar.create(".env")
+                .getValue("PORT"));
         atExpose.startCLI()
                 .getWebServerBuilder()
-                .port(Integer.valueOf(ConfigVar.create(".env").getValue("PORT")))
+                .port(port)
                 .accessLevel(1)
-                .cacheFilesInRAM(false)
+                .cacheFilesInRAM(isProduction)
                 .webServerDir("website/mailtoself")
                 .startWebServer()
                 .addLogger(getEventLogger());
