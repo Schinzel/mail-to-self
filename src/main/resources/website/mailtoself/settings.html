@@ -6,6 +6,8 @@
 
 
 <script>
+    <!--#include file="shared.js" -->
+
     function saveSettings() {
         var password = document.getElementById("password").value;
         var xhr = new XMLHttpRequest();
@@ -23,6 +25,7 @@
         var username = document.getElementById("username").value;
         localStorage.setItem("username", username);
         localStorage.setItem("password", encryptedPassword);
+        notify('Saved settings');
     }
 
 

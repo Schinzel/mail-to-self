@@ -6,11 +6,13 @@
 
 
 <script>
+    <!--#include file="shared.js" -->
+
     function send() {
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
             document.getElementById("mailContent").value = "";
-            alert(xhr.responseText);
+            notify(xhr.responseText)
             document.getElementById("mailContent").focus();
         }
         xhr.open("post", "/call/mailMe", true);
@@ -31,6 +33,7 @@
             window.location.href = "settings.html";
         }
     }
+
 </script>
 
 
