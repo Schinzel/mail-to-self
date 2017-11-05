@@ -1,10 +1,13 @@
 package io.schinzel.mailtoself;
 
 import com.atexpose.AtExpose;
+import com.atexpose.dispatcher.IDispatcher;
 import com.atexpose.dispatcher.logging.Logger;
 import com.atexpose.dispatcher.logging.LoggerType;
 import com.atexpose.dispatcher.logging.format.LogFormatterFactory;
 import com.atexpose.dispatcher.logging.writer.LogWriterFactory;
+import com.atexpose.dispatcherfactories.CliFactory;
+import com.atexpose.dispatcherfactories.WebServerBuilder;
 import io.schinzel.basicutils.configvar.ConfigVar;
 
 /**
@@ -16,13 +19,18 @@ public class Main {
         renderStartUpMessage();
         AtExpose.create()
                 .expose(new API())
-                .startCLI()
-                .getWebServerBuilder()
+                .start(getWebServer())
+                .start(CliFactory.create());
+    }
+
+
+    private static IDispatcher getWebServer() {
+        return WebServerBuilder.create()
                 .port(getPort())
                 .accessLevel(1)
                 .cacheFilesInRAM(isProduction())
                 .webServerDir("website/mailtoself")
-                .startWebServer()
+                .build()
                 .addLogger(getEventLogger());
     }
 
