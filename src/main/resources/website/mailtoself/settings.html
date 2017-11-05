@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <!--#include file="includes/header.html" -->
-</head>
+<!--#include file="includes/header.html" -->
 
 
 <script>
-    <!--#include file="includes/shared.js" -->
-
     function saveSettings() {
         var password = document.getElementById("password").value;
         var xhr = new XMLHttpRequest();
@@ -32,7 +28,6 @@
     function init() {
         document.getElementById("username").value = localStorage.getItem("username");
     }
-
 </script>
 
 
