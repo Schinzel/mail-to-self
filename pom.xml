@@ -16,8 +16,7 @@
     <repositories>
         <repository>
             <id>maven-repo.atexpose.com</id>
-            <!--<url>http://maven-repo.atexpose.com/release</url>-->
-            <url>http://maven-repo.atexpose.com/snapshot</url>
+            <url>http://maven-repo.atexpose.com/release</url>
         </repository>
     </repositories>
 
@@ -29,14 +28,14 @@
             https://projectlombok.org/index.html -->
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.16</version>
+            <version>1.16.18</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <!-- Web server -->
             <groupId>com.atexpose</groupId>
             <artifactId>atexpose</artifactId>
-            <version>0.9.35-SNAPSHOT</version>
+            <version>0.9.35</version>
         </dependency>
     </dependencies>
 
