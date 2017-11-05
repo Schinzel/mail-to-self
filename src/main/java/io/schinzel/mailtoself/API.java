@@ -40,7 +40,7 @@ public class API {
             new GmailEmailSender(username, clearTextPassword).send(username, subject, message, "Me");
         };
         new Thread(r, "email-send-thread").start();
-        return "Mail sent: '" + message + "'";
+        return "Mail sent: '" + subject + "'";
     }
 
 

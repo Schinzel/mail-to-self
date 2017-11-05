@@ -49,13 +49,15 @@
         }
     }
 
+
+
 </script>
 
 
 <body>
 <h1>Mail To Self</h1>
 
-<input type="text" id="mailContent" placeholder="Mail content here...">
+<input type="text" id="mailContent" onkeypress="if (event.keyCode==13) send();" placeholder="Mail content here...">
 
 <button type="button" onClick="send();">SEND</button>
 
