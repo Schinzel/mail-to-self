@@ -20,7 +20,7 @@ public class API {
         String cryptoKeyEmailV1 = ConfigVar.create(".env").getValue("CRYPTO_KEY_EMAIL_V1");
         //Add the email crypto to the cipher library
         mCipherLibrary = CipherLibrary.create().addCipher(1, new Aes256Gcm(cryptoKeyEmailV1));
-        //Do a warm up encryption. On a 2017 MaxBook pro the first encryption to approximately
+        //Do a warm up encryption. On a 2017 MaxBook Pro the first encryption took approximately
         //200ms and the the second encryption 0.2ms.
         mCipherLibrary.encrypt(1, RandomUtil.getRandomString(20));
     }
@@ -30,8 +30,10 @@ public class API {
             requiredArgumentCount = 3,
             requiredAccessLevel = 1,
             arguments = {"Message", "Username", "Password"},
-            description = "Sends an email")
+            description = "Sends an email",
+            theReturn = "Status of operation message")
     String mailMe(String message, String username, String password) {
+        //Set subject to be start of message
         String subject = message.length() > SUBJECT_MAX_LENGTH
                 ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
                 : message;

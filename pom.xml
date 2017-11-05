@@ -11,14 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <deploy-repo>maven-repo.schinzel.io</deploy-repo>
     </properties>
 
     <repositories>
-        <repository>
-            <id>maven-repo.schinzel.io</id>
-            <url>http://maven-repo.schinzel.io/release</url>
-        </repository>
         <repository>
             <id>maven-repo.atexpose.com</id>
             <url>http://maven-repo.atexpose.com/release</url>
@@ -33,13 +28,14 @@
             https://projectlombok.org/index.html -->
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.16</version>
+            <version>1.16.18</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- Web server -->
             <groupId>com.atexpose</groupId>
             <artifactId>atexpose</artifactId>
-            <version>0.9.30</version>
+            <version>0.9.35</version>
         </dependency>
     </dependencies>
 

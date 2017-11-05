@@ -1,10 +1,13 @@
 package io.schinzel.mailtoself;
 
 import com.atexpose.AtExpose;
+import com.atexpose.dispatcher.IDispatcher;
 import com.atexpose.dispatcher.logging.Logger;
 import com.atexpose.dispatcher.logging.LoggerType;
 import com.atexpose.dispatcher.logging.format.LogFormatterFactory;
 import com.atexpose.dispatcher.logging.writer.LogWriterFactory;
+import com.atexpose.dispatcherfactories.CliFactory;
+import com.atexpose.dispatcherfactories.WebServerBuilder;
 import io.schinzel.basicutils.configvar.ConfigVar;
 
 /**
@@ -16,14 +19,8 @@ public class Main {
         renderStartUpMessage();
         AtExpose.create()
                 .expose(new API())
-                .startCLI()
-                .getWebServerBuilder()
-                .port(getPort())
-                .accessLevel(1)
-                .cacheFilesInRAM(isProduction())
-                .webServerDir("website/mailtoself")
-                .startWebServer()
-                .addLogger(getEventLogger());
+                .start(getWebServer())
+                .start(CliFactory.create());
     }
 
 
@@ -36,6 +33,20 @@ public class Main {
         System.out.println("****       -= Mail To Self =-      ****");
         System.out.println("****                               ****");
         System.out.println("***************************************");
+    }
+
+
+    /**
+     * @return A configured web server with an event logger
+     */
+    private static IDispatcher getWebServer() {
+        return WebServerBuilder.create()
+                .port(getPort())
+                .accessLevel(1)
+                .cacheFilesInRAM(isProduction())
+                .webServerDir("website/mailtoself")
+                .build()
+                .addLogger(getEventLogger());
     }
 
 

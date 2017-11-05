@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <!--#include file="includes/header.html" -->
-    <style>
-        <!--#include file="includes/style.css" -->
-    </style>
-</head>
+<!--#include file="includes/header.html" -->
 
 
 <script>
-    <!--#include file="includes/shared.js" -->
-
     function saveSettings() {
         var password = document.getElementById("password").value;
         var xhr = new XMLHttpRequest();
@@ -18,7 +11,7 @@
             saveToLocalStorage(xhr.responseText);
         };
         xhr.open("post", "/call/encryptPassword", true);
-        //Encode so that can send special chars like swedish chars
+        //Encode so that can send special chars
         var mailContent = encodeURIComponent(password);
         xhr.send("Password=" + mailContent);
     }
@@ -35,7 +28,6 @@
     function init() {
         document.getElementById("username").value = localStorage.getItem("username");
     }
-
 </script>
 
 
