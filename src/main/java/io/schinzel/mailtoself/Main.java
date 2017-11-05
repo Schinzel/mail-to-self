@@ -24,17 +24,6 @@ public class Main {
     }
 
 
-    private static IDispatcher getWebServer() {
-        return WebServerBuilder.create()
-                .port(getPort())
-                .accessLevel(1)
-                .cacheFilesInRAM(isProduction())
-                .webServerDir("website/mailtoself")
-                .build()
-                .addLogger(getEventLogger());
-    }
-
-
     /**
      * Render a system start message.
      */
@@ -44,6 +33,20 @@ public class Main {
         System.out.println("****       -= Mail To Self =-      ****");
         System.out.println("****                               ****");
         System.out.println("***************************************");
+    }
+
+
+    /**
+     * @return A configured web server with an event logger
+     */
+    private static IDispatcher getWebServer() {
+        return WebServerBuilder.create()
+                .port(getPort())
+                .accessLevel(1)
+                .cacheFilesInRAM(isProduction())
+                .webServerDir("website/mailtoself")
+                .build()
+                .addLogger(getEventLogger());
     }
 
 

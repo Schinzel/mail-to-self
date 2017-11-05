@@ -12,16 +12,19 @@
      * Send email to self
      */
     function send() {
-        //The the text to email
+        //The the message to email
         var mailContent = document.getElementById("mailContent").value;
-        //If the was not message to send
+        //If there was no message to send
         if (!mailContent) {
             return;
         }
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
+            //Empty message input box
             document.getElementById("mailContent").value = "";
+            //Show server response to user
             notify(xhr.responseText);
+            //Put focus in input box for user to start typing a new message
             document.getElementById("mailContent").focus();
         };
         xhr.open("post", "/call/mailMe", true);
@@ -36,6 +39,7 @@
      * Init page
      */
     function init() {
+        //Put focus in input box for user to start typing a message
         document.getElementById("mailContent").focus();
         //If either username or password is missing
         if (!localStorage.getItem("username") || !localStorage.getItem("password")) {
@@ -47,14 +51,14 @@
     }
 
 
-
 </script>
 
 
 <body>
 <h1>Mail To Self</h1>
 
-<input type="text" id="mailContent" onkeypress="if (event.keyCode==13) send();" placeholder="Mail content here...">
+<input type="text" id="mailContent" onkeypress="if (event.keyCode==13) send();"
+       placeholder="Mail content here...">
 
 <button type="button" onClick="send();">SEND</button>
 
