@@ -52,10 +52,17 @@
 <body>
 <h1>Mail To Self</h1>
 
-<input type="text" id="mailContent" onkeypress="if (event.keyCode==13) send();"
-       placeholder="Mail content here...">
+<textarea
+        type="text"
+        id="mailContent"
+        onkeypress="if (event.keyCode===13) send();"
+        placeholder="Mail content here...">
+</textarea>
 
-<button type="button" onClick="send();">SEND</button>
+<button
+        type="button"
+        onClick="send();">SEND
+</button>
 
 <a href="settings.html">Settings</a>
 <script>init();</script>

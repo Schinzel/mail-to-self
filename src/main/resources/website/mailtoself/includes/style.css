@@ -1,32 +1,30 @@
 body {
     background-color: linen;
     text-align: center;
-    font-family: verdana;
+    font-family: verdana, sans-serif;
 }
 
 h1 {
     color: maroon;
 }
 
-input[type=text], input[type=password], select {
+input[type=text], input[type=password], textarea {
     width: 80%;
-    padding: 32px 20px;
-    display: inline-block;
+    padding: 20px 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 20px;
     color: darkslategrey;
     display:block;
-    margin: auto;
-    margin-bottom: 20px;
+    margin: auto auto 20px;
+    outline:none;
 }
 
 label{
     font-size: 20px;
     font-weight: bold;
     color: darkslategrey;
-
 }
 
 button {
@@ -37,12 +35,16 @@ button {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     font-weight: bold;
     display:block;
-    margin: auto;
-    margin-bottom: 20px;
+    margin: auto auto 20px;
+    outline:none;
+}
+
+button:focus{
+    outline:none;
+    background: darkslategrey;
 }
 
 .notification {
