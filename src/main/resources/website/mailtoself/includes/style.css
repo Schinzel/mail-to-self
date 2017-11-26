@@ -18,6 +18,7 @@ input[type=text], input[type=password], textarea {
     color: darkslategrey;
     display:block;
     margin: auto auto 20px;
+    outline:none;
 }
 
 label{
@@ -38,6 +39,12 @@ button {
     font-weight: bold;
     display:block;
     margin: auto auto 20px;
+    outline:none;
+}
+
+button:focus{
+    outline:none;
+    background: darkslategrey;
 }
 
 .notification {
