@@ -10,7 +10,8 @@ import io.schinzel.basicutils.crypto.cipher.Aes256Gcm;
 /**
  * The purpose of this class is to hold the API methods.
  */
-public class API {
+@SuppressWarnings("unused")
+class API {
     private static final int SUBJECT_MAX_LENGTH = 20;
     private CipherLibrary mCipherLibrary;
 
@@ -28,7 +29,6 @@ public class API {
 
     @Expose(
             requiredArgumentCount = 3,
-            requiredAccessLevel = 1,
             arguments = {"Message", "Username", "Password"},
             description = "Sends an email",
             theReturn = "Status of operation message")
@@ -38,9 +38,8 @@ public class API {
                 ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
                 : message;
         String clearTextPassword = mCipherLibrary.decrypt(password);
-        Runnable r = () -> {
-            new GmailEmailSender(username, clearTextPassword).send(username, subject, message, "Me");
-        };
+        Runnable r = () -> new GmailEmailSender(username, clearTextPassword)
+                .send(username, subject, message, "Me");
         new Thread(r, "email-send-thread").start();
         return "Mail sent: '" + subject + "'";
     }
@@ -48,7 +47,6 @@ public class API {
 
     @Expose(
             requiredArgumentCount = 1,
-            requiredAccessLevel = 1,
             arguments = {"Password"},
             description = "Encrypts the argument password",
             theReturn = "The argument password encrypted")
