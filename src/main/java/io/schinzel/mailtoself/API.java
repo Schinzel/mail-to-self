@@ -13,7 +13,7 @@ import io.schinzel.basicutils.crypto.cipher.Aes256Gcm;
 @SuppressWarnings("unused")
 class API {
     private static final int SUBJECT_MAX_LENGTH = 20;
-    private CipherLibrary mCipherLibrary;
+    private final CipherLibrary mCipherLibrary;
 
 
     API() {
@@ -22,7 +22,7 @@ class API {
         //Add the email crypto to the cipher library
         mCipherLibrary = CipherLibrary.create().addCipher(1, new Aes256Gcm(cryptoKeyEmailV1));
         //Do a warm up encryption. On a 2017 MaxBook Pro the first encryption took approximately
-        //200ms and the the second encryption 0.2ms.
+        //200ms and the the second encryption 0.2 ms.
         mCipherLibrary.encrypt(1, RandomUtil.getRandomString(20));
     }
 
@@ -32,14 +32,16 @@ class API {
             arguments = {"Message", "Username", "Password"},
             description = "Sends an email",
             theReturn = "Status of operation message")
-    String mailMe(String message, String username, String password) {
+    String mailMe(final String message, final String username, final String password) {
         //Set subject to be start of message
-        String subject = message.length() > SUBJECT_MAX_LENGTH
+        final String subject = message.length() > SUBJECT_MAX_LENGTH
                 ? message.substring(0, SUBJECT_MAX_LENGTH) + "..."
                 : message;
-        String clearTextPassword = mCipherLibrary.decrypt(password);
+        //Remove any whitespaces in subject
+        final String subjectWithoutWhitespace = subject.replaceAll("\\s", " ");
+        final String clearTextPassword = mCipherLibrary.decrypt(password);
         Runnable r = () -> new GmailEmailSender(username, clearTextPassword)
-                .send(username, subject, message, "Me");
+                .send(username, subjectWithoutWhitespace, message, "Me");
         new Thread(r, "email-send-thread").start();
         return "Mail sent: '" + subject + "'";
     }
