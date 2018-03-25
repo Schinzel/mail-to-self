@@ -47,13 +47,16 @@ var Accounts = (function () {
         return JSON.parse(localStorage.getItem("accounts"));
     }
 
+    function _getAccount(index) {
+        return _getAccounts()[index];
+
+    }
 
     return {
         getAccountNames: function () {
-            var accounts = _getAccounts();
             var accountNames = [];
-            for (var i = 0; i < accounts.length; i++) {
-                accountNames[i] = accounts[i].account_name;
+            for (var i = 0; i < _getAccounts().length; i++) {
+                accountNames[i] = _getAccount(i).account_name;
             }
             return accountNames;
         },
@@ -63,7 +66,7 @@ var Accounts = (function () {
          * @returns String The user name for the account at the argument index
          */
         getUserName: function (index) {
-            return _getAccounts()[index].user_name;
+            return _getAccount(index).user_name;
         },
         /**
          *
@@ -71,7 +74,7 @@ var Accounts = (function () {
          * @returns String The encrypted password for the account at the argument index
          */
         getEncryptedPassword: function (index) {
-            return _getAccounts()[index].password;
+            return _getAccount(index).password;
         },
         /**
          *
@@ -79,7 +82,7 @@ var Accounts = (function () {
          * @returns String The account name for the account at the argument index
          */
         getAccountName: function (index) {
-            return _getAccounts()[index].account_name;
+            return _getAccount(index).account_name;
         }
     };
 }());
