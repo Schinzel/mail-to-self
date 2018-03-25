@@ -30,12 +30,12 @@ var Accounts = (function () {
     function _init() {
         var accounts = [
             {
-                'name': 'Schinzel',
+                'account_name': 'Schinzel',
                 'user_name': 'henrik@schinzel.se',
                 'password': '***'
             }
             , {
-                'name': 'Treceni',
+                'account_name': 'Treceni',
                 'user_name': 'henrik@treceni.com',
                 'password': '***'
             }
@@ -53,7 +53,7 @@ var Accounts = (function () {
             var accounts = _getAccounts();
             var accountNames = [];
             for (var i = 0; i < accounts.length; i++) {
-                accountNames[i] = accounts[i].name;
+                accountNames[i] = accounts[i].account_name;
             }
             return accountNames;
         },
@@ -79,7 +79,7 @@ var Accounts = (function () {
          * @returns String The account name for the account at the argument index
          */
         getAccountName: function (index) {
-            return _getAccounts()[index].name;
+            return _getAccounts()[index].account_name;
         }
     };
 }());
