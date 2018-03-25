@@ -6,6 +6,7 @@
 <script>
     function init() {
         renderTabs();
+        goToSend();
     }
 
     function renderTabs() {
@@ -67,6 +68,16 @@
             + "&Password=" + encodeURIComponent(password)
         );
     }
+
+    function goToSettings() {
+        document.getElementById("areaSend").style.display = "none";
+        document.getElementById("areaSettings").style.display = "block";
+    }
+
+    function goToSend() {
+        document.getElementById("areaSend").style.display = "block";
+        document.getElementById("areaSettings").style.display = "none";
+    }
 </script>
 
 
@@ -74,18 +85,37 @@
 <h1>Mail To Self</h1>
 <div id="tabs"></div>
 
-<textarea
-        type="text"
-        id="mailContent"
-        onkeypress="if (event.keyCode===13) send();"
-        placeholder="Mail content here...">
-</textarea>
+<div id="areaSend">
+    <textarea
+            type="text"
+            id="mailContent"
+            onkeypress="if (event.keyCode===13) send();"
+            placeholder="Mail content here...">
+    </textarea>
 
-<button
-        type="button"
-        onClick="send();">SEND
-</button>
+    <button
+            type="button"
+            onClick="send();">SEND
+    </button>
+    <a href="javascript:goToSettings();">Settings</a>
+</div>
 
+<div id="areaSettings">
+    <h1>Settings</h1>
+
+    <label for="name">Name</label>
+    <input type="text" id="name">
+
+    <label for="username">Gmail Username</label>
+    <input type="text" id="username">
+
+    <label for="password">Gmail Password</label>
+    <input type="password" id="password">
+
+    <button type="button" onClick="saveSettings();">SAVE</button>
+    <button type="button" onClick="">ADD ACCOUNT</button>
+    <a href="javascript:goToSend();">Back</a>
+</div>
 
 <script>init();</script>
 </body>
