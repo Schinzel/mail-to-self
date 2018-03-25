@@ -50,7 +50,7 @@ function getUserName(index) {
  * @returns String The encrypted password for the account at the argument index
  */
 function getEncryptedPassword(index) {
-    var passwords = ["***", "***"];
+    var passwords = ["v1_783a9ee1ec503366eda3569b01275919_4392ba1018f3fbfd8cb82b6835d305e5af9023744d6e864d", "v1_783a9ee1ec503366eda3569b01275919_4392ba1018f3fbfd8cb82b6835d305e5af9023744d6e864d"];
     return passwords[index];
 }
 
