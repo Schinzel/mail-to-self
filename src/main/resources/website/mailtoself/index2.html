@@ -9,7 +9,7 @@
     }
 
     function renderTabs() {
-        var accountNames = getAccountNames();
+        var accountNames = Accounts.getAccountNames();
         if (accountNames && accountNames.length > 1) {
             for (var i = 0; i < accountNames.length; i++) {
                 var className = i == 0 ? "activeTab" : "";
@@ -58,8 +58,8 @@
         //Create request
         xhr.open("post", "/call/mailMe", true);
         var index = getSelectedTabIndex();
-        var userName = getUserName(index);
-        var password = getEncryptedPassword(index);
+        var userName = Accounts.getUserName(index);
+        var password = Accounts.getEncryptedPassword(index);
         //Send request to server
         xhr.send(
             "Message=" + encodeURIComponent(mailContent)

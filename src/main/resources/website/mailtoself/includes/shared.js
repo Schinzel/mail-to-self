@@ -24,43 +24,70 @@ function notify(message) {
         1000);
 }
 
+var Accounts = (function () {
+    _init();
 
-/**
- * @returns Array Account names
- */
-function getAccountNames() {
-    return ["Schinzel", "Treceni", "ddd"];
-}
+    function _init() {
+        var accounts = [
+            {
+                'name': 'Schinzel',
+                'user_name': 'henrik@schinzel.se',
+                'password': '***'
+            }
+            , {
+                'name': 'Treceni',
+                'user_name': 'henrik@treceni.com',
+                'password': '***'
+            }
+        ];
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+    }
 
-
-/**
- *
- * @param index
- * @returns String The user name for the account at the argument index
- */
-function getUserName(index) {
-    var userNames = ["henrik@schinzel.se", "henrik@treceni.com"];
-    return userNames[index];
-}
-
-
-/**
- *
- * @param index
- * @returns String The encrypted password for the account at the argument index
- */
-function getEncryptedPassword(index) {
-    var passwords = ["v1_783a9ee1ec503366eda3569b01275919_4392ba1018f3fbfd8cb82b6835d305e5af9023744d6e864d", "v1_783a9ee1ec503366eda3569b01275919_4392ba1018f3fbfd8cb82b6835d305e5af9023744d6e864d"];
-    return passwords[index];
-}
+    function _getAccounts() {
+        return JSON.parse(localStorage.getItem("accounts"));
+    }
 
 
-/**
- *
- * @param index
- * @returns String The account name for the account at the argument index
- */
-function getAccountName(index) {
-    var accountNames = ["Schinzel", "Treceni"];
-    return accountNames[index];
-}
+    return {
+        getAccountNames: function () {
+            var accounts = _getAccounts();
+            var accountNames = [];
+            for (var i = 0; i < accounts.length; i++) {
+                accountNames[i] = accounts[i].name;
+            }
+            return accountNames;
+        },
+        /**
+         *
+         * @param index
+         * @returns String The user name for the account at the argument index
+         */
+        getUserName: function (index) {
+            return _getAccounts()[index].user_name;
+        },
+        /**
+         *
+         * @param index
+         * @returns String The encrypted password for the account at the argument index
+         */
+        getEncryptedPassword: function (index) {
+            return _getAccounts()[index].password;
+        },
+        /**
+         *
+         * @param index
+         * @returns String The account name for the account at the argument index
+         */
+        getAccountName: function (index) {
+            return _getAccounts()[index].name;
+        }
+    };
+}());
+
+
+
+
+
+
+
+
