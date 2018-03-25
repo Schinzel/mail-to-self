@@ -24,3 +24,43 @@ function notify(message) {
         1000);
 }
 
+
+/**
+ * @returns Array Account names
+ */
+function getAccountNames() {
+    return ["Schinzel", "Treceni", "ddd"];
+}
+
+
+/**
+ *
+ * @param index
+ * @returns String The user name for the account at the argument index
+ */
+function getUserName(index) {
+    var userNames = ["henrik@schinzel.se", "henrik@treceni.com"];
+    return userNames[index];
+}
+
+
+/**
+ *
+ * @param index
+ * @returns String The encrypted password for the account at the argument index
+ */
+function getEncryptedPassword(index) {
+    var passwords = ["***", "***"];
+    return passwords[index];
+}
+
+
+/**
+ *
+ * @param index
+ * @returns String The account name for the account at the argument index
+ */
+function getAccountName(index) {
+    var accountNames = ["Schinzel", "Treceni"];
+    return accountNames[index];
+}

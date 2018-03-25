@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<!--#include file="includes/header.html" -->
+
+
+<script>
+    function init() {
+        renderTabs();
+    }
+
+    function renderTabs() {
+        var accountNames = getAccountNames();
+        if (accountNames && accountNames.length > 1) {
+            for (var i = 0; i < accountNames.length; i++) {
+                var className = i == 0 ? "activeTab" : "inactiveTab";
+                var tabHtml = "<div "
+                    + "class='" + className + "' "
+                    + "name='tab'"
+                    + "onclick='javascript:toggleTab(this);'>"
+                    + accountNames[i] + "</div>";
+                document.getElementById("tabs").innerHTML += tabHtml;
+            }
+        }
+    }
+
+
+    function toggleTab(elem) {
+        var tabs = document.getElementsByName("tab");
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('activeTab');
+            tabs[i].classList.add('inactiveTab');
+        }
+        elem.classList.remove('inactiveTab');
+        elem.classList.add('activeTab');
+    }
+</script>
+
+
+<body>
+<h1>Mail To Self</h1>
+<div id="tabs"></div>
+
+
+<script>init();</script>
+</body>
+</html>
