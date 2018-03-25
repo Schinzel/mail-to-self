@@ -10,16 +10,16 @@
     }
 
     function renderTabs() {
-        var accountNames = Accounts.getAccountNames();
-        if (accountNames && accountNames.length > 1) {
-            for (var i = 0; i < accountNames.length; i++) {
-                var className = i == 0 ? "activeTab" : "";
-                var tabHtml = "<div "
+        var accountIds = Accounts.getAccountIds();
+        if (accountIds && accountIds.length > 1) {
+            for (var i = 0; i < accountIds.length; i++) {
+                var className = i === 0 ? "activeTab" : "";
+                var accountName = Accounts.getAccountName(accountIds[i]);
+                document.getElementById("tabs").innerHTML += "<div "
                     + "class='tab " + className + "' "
-                    + "data-index='" + i + "'"
+                    +"data-index='" + i + "'"
                     + "onclick='javascript:toggleTab(this);'>"
-                    + accountNames[i] + "</div>";
-                document.getElementById("tabs").innerHTML += tabHtml;
+                    + accountName + "</div>";
             }
         }
     }
