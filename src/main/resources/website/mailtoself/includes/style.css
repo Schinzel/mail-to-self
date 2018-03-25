@@ -21,6 +21,16 @@ input[type=text], input[type=password], textarea {
     outline:none;
 }
 
+div.tab {
+    color: darkslategrey;
+    display:inline;
+    margin: 5px;
+}
+
+div.activeTab {
+    font-weight: bold;
+}
+
 label{
     font-size: 20px;
     font-weight: bold;
