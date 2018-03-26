@@ -5,38 +5,37 @@
 
 <script>
     function init() {
-        renderTabs();
+        Tabs.renderTabs();
         goToSend();
     }
 
-    function renderTabs() {
-        var accountIds = Accounts.getAccountIds();
-        if (accountIds && accountIds.length > 1) {
-            for (var i = 0; i < accountIds.length; i++) {
-                var className = i === 0 ? "activeTab" : "";
-                var accountName = Accounts.getAccountName(accountIds[i]);
-                document.getElementById("tabs").innerHTML += "<div "
-                    + "class='tab " + className + "' "
-                    +"data-index='" + i + "'"
-                    + "onclick='javascript:toggleTab(this);'>"
-                    + accountName + "</div>";
+    var Tabs = (function () {
+        return {
+            renderTabs: function () {
+                var accountIds = Accounts.getAccountIds();
+                if (accountIds && accountIds.length > 1) {
+                    for (var i = 0; i < accountIds.length; i++) {
+                        var className = i === 0 ? "activeTab" : "";
+                        var accountName = Accounts.getAccountName(accountIds[i]);
+                        document.getElementById("tabs").innerHTML += "<div "
+                            + "class='tab " + className + "' "
+                            + "data-id='" + accountIds[i] + "'"
+                            + "onclick='javascript:Tabs.toggleTab(this);'>"
+                            + accountName + "</div>";
+                    }
+                }
+            },
+            getIdOfActiveTab: function () {
+                return document.getElementsByClassName("activeTab")[0].dataset.id;
+            },
+            toggleTab: function (clickedTab) {
+                //Remove active tab class from previously selected tab
+                document.getElementsByClassName("activeTab")[0].classList.remove("activeTab");
+                //Set argument tab to be active tab
+                clickedTab.classList.add('activeTab');
             }
-        }
-    }
-
-
-    function toggleTab(clickedTab) {
-        //Remove active tab class from previously selected tab
-        document.getElementsByClassName("activeTab")[0].classList.remove("activeTab");
-        //Set argument tab to be active tab
-        clickedTab.classList.add('activeTab');
-    }
-
-
-    function getSelectedTabIndex() {
-        var index = document.getElementsByClassName("activeTab")[0].dataset.index;
-        return parseInt(index);
-    }
+        };
+    }());
 
 
     function send() {
@@ -58,9 +57,9 @@
         };
         //Create request
         xhr.open("post", "/call/mailMe", true);
-        var index = getSelectedTabIndex();
-        var userName = Accounts.getUserName(index);
-        var password = Accounts.getEncryptedPassword(index);
+        var id = Tabs.getIdOfActiveTab();
+        var userName = Accounts.getUserName(id);
+        var password = Accounts.getEncryptedPassword(id);
         //Send request to server
         xhr.send(
             "Message=" + encodeURIComponent(mailContent)
@@ -77,6 +76,28 @@
     function goToSend() {
         document.getElementById("areaSend").style.display = "block";
         document.getElementById("areaSettings").style.display = "none";
+    }
+
+
+    function saveSettings() {
+        var password = document.getElementById("password").value;
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            saveToLocalStorage(xhr.responseText);
+        };
+        xhr.open("post", "/call/encryptPassword", true);
+        //Encode so that can send special chars
+        var mailContent = encodeURIComponent(password);
+        xhr.send("Password=" + mailContent);
+    }
+
+
+    function saveToLocalStorage(encryptedPassword) {
+        var id = Tabs.getIdOfActiveTab();
+        var account_name = document.getElementById("account_name").value;
+        var user_name = document.getElementById("user_name").value;
+
+        notify('Saved settings');
     }
 </script>
 
@@ -106,8 +127,8 @@
     <label for="name">Name</label>
     <input type="text" id="name">
 
-    <label for="username">Gmail Username</label>
-    <input type="text" id="username">
+    <label for="user_name">Gmail Username</label>
+    <input type="text" id="user_name">
 
     <label for="password">Gmail Password</label>
     <input type="password" id="password">
