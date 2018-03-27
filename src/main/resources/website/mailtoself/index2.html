@@ -5,7 +5,7 @@
 
 <script>
     function init() {
-        Tabs.renderTabs();
+        Tabs.renderTabs('tabs');
         goToSend();
     }
 
@@ -30,20 +30,20 @@
         }
 
         return {
-            renderTabs: function () {
+            renderTabs: function (elementId) {
                 var accountIds = Accounts.getAccountIds();
                 if (accountIds && accountIds.length > 1) {
                     for (var i = 0; i < accountIds.length; i++) {
                         var isActiveTab = (i === 0);
                         var accountName = Accounts.getAccountName(accountIds[i]);
                         var div = _createTab(accountIds[i], accountName, isActiveTab);
-                        document.getElementById("tabs").appendChild(div);
+                        document.getElementById(elementId).appendChild(div);
                     }
                 }
             },
             getIdOfActiveTab: function () {
                 return document.getElementsByClassName("activeTab")[0].dataset.accountId;
-            },
+            }
         };
     }());
 
