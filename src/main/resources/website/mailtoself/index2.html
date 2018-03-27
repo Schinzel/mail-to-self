@@ -47,6 +47,64 @@
         };
     }());
 
+    var AccountSaver = (function () {
+        function _saveSettings() {
+            var password = document.getElementById("password").value;
+            if (!password){
+                notify("Dude. You forgot to set the password..");
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                _saveToLocalStorage(xhr.responseText);
+            };
+            xhr.open("post", "/call/encryptPassword", true);
+            //Encode so that can send special chars
+            var mailContent = encodeURIComponent(password);
+            xhr.send("Password=" + mailContent);
+        }
+
+
+        function _saveToLocalStorage(encryptedPassword) {
+            var accountId = Tabs.getIdOfActiveTab();
+            var accountName = document.getElementById("account_name").value;
+            var userName = document.getElementById("user_name").value;
+            if (!accountName){
+                notify("Dude. You forgot to set the account name..");
+                return;
+            }
+            if (!userName){
+                notify("Dude. You forgot to set the user name..");
+                return;
+            }
+            Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
+            notify('Saved settings');
+        }
+        
+
+        var mHtml = ''
+            + '<label for="account_name">Name</label>'
+            + '<input type="text" id="account_name">'
+            + '<label for="user_name">Gmail Username</label>'
+            + '<input type="text" id="user_name">'
+            + '<label for="password">Gmail Password</label>'
+            + '<input type="password" id="password">';
+        return {
+            render: function (elementId) {
+                document.getElementById(elementId).innerHTML = mHtml;
+                var saveButton = document.createElement('button');
+                saveButton.type = 'button';
+                saveButton.innerText = 'SAVE';
+                saveButton.addEventListener("click", _saveSettings);
+                document.getElementById(elementId).appendChild(saveButton);
+                var accountId = Tabs.getIdOfActiveTab();
+                document.getElementById("account_name").value = Accounts.getAccountName(accountId);
+                document.getElementById("user_name").value = Accounts.getUserName(accountId);
+                document.getElementById("password").value = "";
+            }
+        }
+
+    }());
 
     function send() {
         //The the message to email
@@ -82,9 +140,10 @@
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
         var accountId = Tabs.getIdOfActiveTab();
-        document.getElementById("account_name").value = Accounts.getAccountName(accountId);
+        AccountSaver.render('accountSaver');
+        /*document.getElementById("account_name").value = Accounts.getAccountName(accountId);
         document.getElementById("user_name").value = Accounts.getUserName(accountId);
-        document.getElementById("password").value = "";
+        document.getElementById("password").value = "";*/
     }
 
     function goToSend() {
@@ -93,26 +152,6 @@
     }
 
 
-    function saveSettings() {
-        var password = document.getElementById("password").value;
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            saveToLocalStorage(xhr.responseText);
-        };
-        xhr.open("post", "/call/encryptPassword", true);
-        //Encode so that can send special chars
-        var mailContent = encodeURIComponent(password);
-        xhr.send("Password=" + mailContent);
-    }
-
-
-    function saveToLocalStorage(encryptedPassword) {
-        var accountId = Tabs.getIdOfActiveTab();
-        var accountName = document.getElementById("account_name").value;
-        var userName = document.getElementById("user_name").value;
-        Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
-        notify('Saved settings');
-    }
 </script>
 
 
@@ -137,17 +176,7 @@
 
 <div id="areaSettings">
     <h1>Settings</h1>
-
-    <label for="account_name">Name</label>
-    <input type="text" id="account_name">
-
-    <label for="user_name">Gmail Username</label>
-    <input type="text" id="user_name">
-
-    <label for="password">Gmail Password</label>
-    <input type="password" id="password">
-
-    <button type="button" onClick="saveSettings();">SAVE</button>
+    <div id="accountSaver"></div>
     <button type="button" onClick="">ADD ACCOUNT</button>
     <a href="javascript:goToSend();">Back</a>
 </div>
