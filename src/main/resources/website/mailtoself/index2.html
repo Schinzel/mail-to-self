@@ -5,7 +5,7 @@
 
 <script>
     function init() {
-        Tabs.renderTabs('tabs');
+        Tabs.render('tabs');
         goToSend();
     }
 
@@ -30,7 +30,7 @@
         }
 
         return {
-            renderTabs: function (elementId) {
+            render: function (elementId) {
                 var accountIds = Accounts.getAccountIds();
                 if (accountIds && accountIds.length > 1) {
                     for (var i = 0; i < accountIds.length; i++) {
@@ -103,7 +103,6 @@
                 document.getElementById("password").value = "";
             }
         }
-
     }());
 
     function send() {
@@ -150,7 +149,6 @@
         document.getElementById("areaSend").style.display = "block";
         document.getElementById("areaSettings").style.display = "none";
     }
-
 
 </script>
 
