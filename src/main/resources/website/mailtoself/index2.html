@@ -71,12 +71,8 @@
             var accountId = Tabs.getIdOfActiveTab();
             var accountName = document.getElementById("account_name").value;
             var userName = document.getElementById("user_name").value;
-            if (!accountName) {
-                notify("Dude. You forgot to set the account name..");
-                return;
-            }
-            if (!userName) {
-                notify("Dude. You forgot to set the user name..");
+            if (!accountName || !userName) {
+                notify("Dude. You forgot to set the account name or user name..");
                 return;
             }
             Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
@@ -154,7 +150,7 @@
 
         return {
             render: function (elementId) {
-                var textarea = document.createElement('textarea')
+                var textarea = document.createElement('textarea');
                 textarea.id = 'mailContent';
                 textarea.placeholder = 'Mail content here...';
                 textarea.onkeypress = function () {

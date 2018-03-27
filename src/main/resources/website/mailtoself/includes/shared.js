@@ -31,7 +31,6 @@ var Accounts = (function () {
     }
 
 
-
     function _getAccount(id) {
         var accounts = _getAccounts();
         for (var i = 0; i < accounts.length; i++) {
