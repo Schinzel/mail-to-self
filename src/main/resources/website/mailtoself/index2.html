@@ -32,6 +32,7 @@
 
         return {
             render: function (elementId) {
+                document.getElementById(elementId).innerHTML = '';
                 var accountIds = Accounts.getAccountIds();
                 if (accountIds && accountIds.length > 1) {
                     for (var i = 0; i < accountIds.length; i++) {
@@ -50,6 +51,16 @@
 
 
     var AccountSaver = (function () {
+        var mOnSaveFunction;
+        var mHtml = ''
+            + '<label for="account_name">Name</label>'
+            + '<input type="text" id="account_name">'
+            + '<label for="user_name">Gmail Username</label>'
+            + '<input type="text" id="user_name">'
+            + '<label for="password">Gmail Password</label>'
+            + '<input type="password" id="password">';
+
+
         function _saveSettings() {
             var password = document.getElementById("password").value;
             if (!password) {
@@ -77,18 +88,12 @@
             }
             Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
             notify('Saved settings');
+            mOnSaveFunction();
         }
 
-
-        var mHtml = ''
-            + '<label for="account_name">Name</label>'
-            + '<input type="text" id="account_name">'
-            + '<label for="user_name">Gmail Username</label>'
-            + '<input type="text" id="user_name">'
-            + '<label for="password">Gmail Password</label>'
-            + '<input type="password" id="password">';
         return {
-            render: function (elementId) {
+            render: function (elementId, onSaveFunction) {
+                mOnSaveFunction = onSaveFunction;
                 document.getElementById(elementId).innerHTML = mHtml;
                 var saveButton = document.createElement('button');
                 saveButton.type = 'button';
@@ -107,11 +112,12 @@
     function goToSettings() {
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
-        AccountSaver.render('accountSaver');
+        AccountSaver.render('accountSaver', goToSend);
     }
 
 
     function goToSend() {
+        //Tabs.render('tabs');
         document.getElementById("areaSend").style.display = "block";
         document.getElementById("areaSettings").style.display = "none";
     }
@@ -171,9 +177,9 @@
 
 <body>
 <h1>Mail To Self</h1>
-<div id="tabs"></div>
 
 <div id="areaSend">
+    <div id="tabs"></div>
     <div id="sender"></div>
     <a href="javascript:goToSettings();">Settings</a>
 </div>
