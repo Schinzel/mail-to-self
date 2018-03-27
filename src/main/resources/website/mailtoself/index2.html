@@ -10,30 +10,40 @@
     }
 
     var Tabs = (function () {
+        function _toggleTabs() {
+            //Remove active tab class from previously selected tab
+            document.getElementsByClassName("activeTab")[0].classList.remove("activeTab");
+            //Set argument tab to be active tab
+            event.target.classList.add('activeTab');
+        }
+
+        function _createTab(accountId, accountName, isActiveTab) {
+            var div = document.createElement('div');
+            div.classList.add('tab');
+            if (isActiveTab) {
+                div.classList.add('activeTab');
+            }
+            div.addEventListener("click", _toggleTabs)
+            div.innerHTML = accountName;
+            div.dataset.accountId = accountId;
+            return div;
+        }
+
         return {
             renderTabs: function () {
                 var accountIds = Accounts.getAccountIds();
                 if (accountIds && accountIds.length > 1) {
                     for (var i = 0; i < accountIds.length; i++) {
-                        var className = i === 0 ? "activeTab" : "";
+                        var isActiveTab = (i === 0);
                         var accountName = Accounts.getAccountName(accountIds[i]);
-                        document.getElementById("tabs").innerHTML += "<div "
-                            + "class='tab " + className + "' "
-                            + "data-id='" + accountIds[i] + "'"
-                            + "onclick='javascript:Tabs.toggleTab(this);'>"
-                            + accountName + "</div>";
+                        var div = _createTab(accountIds[i], accountName, isActiveTab);
+                        document.getElementById("tabs").appendChild(div);
                     }
                 }
             },
             getIdOfActiveTab: function () {
-                return document.getElementsByClassName("activeTab")[0].dataset.id;
+                return document.getElementsByClassName("activeTab")[0].dataset.accountId;
             },
-            toggleTab: function (clickedTab) {
-                //Remove active tab class from previously selected tab
-                document.getElementsByClassName("activeTab")[0].classList.remove("activeTab");
-                //Set argument tab to be active tab
-                clickedTab.classList.add('activeTab');
-            }
         };
     }());
 

@@ -30,13 +30,13 @@ var Accounts = (function () {
     function _init() {
         var accounts = [
             {
-                'id': 'hdfjksf',
+                'id': '11hdfjksf',
                 'account_name': 'Schinzel',
                 'user_name': 'henrik@schinzel.se',
                 'password': '***'
             }
             , {
-                'id': 'lsdkjsa',
+                'id': '22lsdkjsa',
                 'account_name': 'Treceni',
                 'user_name': 'henrik@treceni.com',
                 'password': '***'
