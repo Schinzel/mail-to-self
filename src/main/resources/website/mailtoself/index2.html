@@ -81,6 +81,10 @@
     function goToSettings() {
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
+        var accountId = Tabs.getIdOfActiveTab();
+        document.getElementById("account_name").value = Accounts.getAccountName(accountId);
+        document.getElementById("user_name").value = Accounts.getUserName(accountId);
+        document.getElementById("password").value = "";
     }
 
     function goToSend() {
@@ -103,10 +107,10 @@
 
 
     function saveToLocalStorage(encryptedPassword) {
-        var id = Tabs.getIdOfActiveTab();
-        var account_name = document.getElementById("account_name").value;
-        var user_name = document.getElementById("user_name").value;
-
+        var accountId = Tabs.getIdOfActiveTab();
+        var accountName = document.getElementById("account_name").value;
+        var userName = document.getElementById("user_name").value;
+        Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
         notify('Saved settings');
     }
 </script>
@@ -134,8 +138,8 @@
 <div id="areaSettings">
     <h1>Settings</h1>
 
-    <label for="name">Name</label>
-    <input type="text" id="name">
+    <label for="account_name">Name</label>
+    <input type="text" id="account_name">
 
     <label for="user_name">Gmail Username</label>
     <input type="text" id="user_name">

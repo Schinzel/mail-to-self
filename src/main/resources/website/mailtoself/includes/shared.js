@@ -25,30 +25,11 @@ function notify(message) {
 }
 
 var Accounts = (function () {
-    _init();
-
-    function _init() {
-        var accounts = [
-            {
-                'id': '11hdfjksf',
-                'account_name': 'Schinzel',
-                'user_name': 'henrik@schinzel.se',
-                'password': '***'
-            }
-            , {
-                'id': '22lsdkjsa',
-                'account_name': 'Treceni',
-                'user_name': 'henrik@treceni.com',
-                'password': '***'
-            }
-        ];
-        localStorage.setItem("accounts", JSON.stringify(accounts));
-    }
-
 
     function _getAccounts() {
         return JSON.parse(localStorage.getItem("accounts"));
     }
+
 
 
     function _getAccount(id) {
@@ -71,6 +52,17 @@ var Accounts = (function () {
 
 
     return {
+        saveAccount: function(id, accountName, userName, encryptedPassword) {
+            var accounts = _getAccounts();
+            for (var i = 0; i < accounts.length; i++) {
+                if (accounts[i].id === id) {
+                    accounts[i].account_name = accountName;
+                    accounts[i].user_name = userName;
+                    accounts[i].password = encryptedPassword;
+                    localStorage.setItem("accounts", JSON.stringify(accounts));
+                }
+            }
+        },
         getAccountIds: function () {
             var accountIds = [];
             var accounts = _getAccounts();
