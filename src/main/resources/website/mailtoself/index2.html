@@ -6,6 +6,7 @@
 <script>
     function init() {
         Tabs.render('tabs');
+        Sender.render('sender');
         goToSend();
     }
 
@@ -23,7 +24,7 @@
             if (isActiveTab) {
                 div.classList.add('activeTab');
             }
-            div.addEventListener("click", _toggleTabs)
+            div.onclick = _toggleTabs;
             div.innerHTML = accountName;
             div.dataset.accountId = accountId;
             return div;
@@ -47,10 +48,11 @@
         };
     }());
 
+
     var AccountSaver = (function () {
         function _saveSettings() {
             var password = document.getElementById("password").value;
-            if (!password){
+            if (!password) {
                 notify("Dude. You forgot to set the password..");
                 return;
             }
@@ -69,18 +71,18 @@
             var accountId = Tabs.getIdOfActiveTab();
             var accountName = document.getElementById("account_name").value;
             var userName = document.getElementById("user_name").value;
-            if (!accountName){
+            if (!accountName) {
                 notify("Dude. You forgot to set the account name..");
                 return;
             }
-            if (!userName){
+            if (!userName) {
                 notify("Dude. You forgot to set the user name..");
                 return;
             }
             Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
             notify('Saved settings');
         }
-        
+
 
         var mHtml = ''
             + '<label for="account_name">Name</label>'
@@ -95,7 +97,7 @@
                 var saveButton = document.createElement('button');
                 saveButton.type = 'button';
                 saveButton.innerText = 'SAVE';
-                saveButton.addEventListener("click", _saveSettings);
+                saveButton.onclick = _saveSettings;
                 document.getElementById(elementId).appendChild(saveButton);
                 var accountId = Tabs.getIdOfActiveTab();
                 document.getElementById("account_name").value = Accounts.getAccountName(accountId);
@@ -105,50 +107,68 @@
         }
     }());
 
-    function send() {
-        //The the message to email
-        var mailContent = document.getElementById("mailContent").value;
-        //If there was no message to send
-        if (!mailContent) {
-            return;
-        }
-        var xhr = new XMLHttpRequest();
-        //Set callback to invoke on successful response from server
-        xhr.onload = function () {
-            //Empty message input box
-            document.getElementById("mailContent").value = "";
-            //Show server response to user
-            notify(xhr.responseText);
-            //Put focus in input box for user to start typing a new message
-            document.getElementById("mailContent").focus();
-        };
-        //Create request
-        xhr.open("post", "/call/mailMe", true);
-        var id = Tabs.getIdOfActiveTab();
-        var userName = Accounts.getUserName(id);
-        var password = Accounts.getEncryptedPassword(id);
-        //Send request to server
-        xhr.send(
-            "Message=" + encodeURIComponent(mailContent)
-            + "&Username=" + encodeURIComponent(userName)
-            + "&Password=" + encodeURIComponent(password)
-        );
-    }
 
     function goToSettings() {
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
-        var accountId = Tabs.getIdOfActiveTab();
         AccountSaver.render('accountSaver');
-        /*document.getElementById("account_name").value = Accounts.getAccountName(accountId);
-        document.getElementById("user_name").value = Accounts.getUserName(accountId);
-        document.getElementById("password").value = "";*/
     }
+
 
     function goToSend() {
         document.getElementById("areaSend").style.display = "block";
         document.getElementById("areaSettings").style.display = "none";
     }
+
+
+    var Sender = (function () {
+        function _send() {
+            //The the message to email
+            var mailContent = document.getElementById("mailContent").value;
+            //If there was no message to send
+            if (!mailContent) {
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            //Set callback to invoke on successful response from server
+            xhr.onload = function () {
+                //Empty message input box
+                document.getElementById("mailContent").value = "";
+                //Show server response to user
+                notify(xhr.responseText);
+                //Put focus in input box for user to start typing a new message
+                document.getElementById("mailContent").focus();
+            };
+            //Create request
+            xhr.open("post", "/call/mailMe", true);
+            var id = Tabs.getIdOfActiveTab();
+            var userName = Accounts.getUserName(id);
+            var password = Accounts.getEncryptedPassword(id);
+            //Send request to server
+            xhr.send(
+                "Message=" + encodeURIComponent(mailContent)
+                + "&Username=" + encodeURIComponent(userName)
+                + "&Password=" + encodeURIComponent(password)
+            );
+        }
+
+        return {
+            render: function (elementId) {
+                var textarea = document.createElement('textarea')
+                textarea.id = 'mailContent';
+                textarea.placeholder = 'Mail content here...';
+                textarea.onkeypress = function () {
+                    if (event.keyCode === 13) _send();
+                };
+                var saveButton = document.createElement('button');
+                saveButton.type = 'button';
+                saveButton.innerText = 'SEND';
+                saveButton.onclick = _send;
+                document.getElementById(elementId).appendChild(textarea);
+                document.getElementById(elementId).appendChild(saveButton);
+            }
+        };
+    }());
 
 </script>
 
@@ -158,17 +178,7 @@
 <div id="tabs"></div>
 
 <div id="areaSend">
-    <textarea
-            type="text"
-            id="mailContent"
-            onkeypress="if (event.keyCode===13) send();"
-            placeholder="Mail content here...">
-    </textarea>
-
-    <button
-            type="button"
-            onClick="send();">SEND
-    </button>
+    <div id="sender"></div>
     <a href="javascript:goToSettings();">Settings</a>
 </div>
 
