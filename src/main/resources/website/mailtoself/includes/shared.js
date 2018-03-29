@@ -53,21 +53,23 @@ var Accounts = (function () {
 
         saveAccount: function (id, accountName, userName, encryptedPassword) {
             var accounts = _getAccounts();
+            var accountUpdated = false;
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i].id === id) {
                     accounts[i].account_name = accountName;
                     accounts[i].user_name = userName;
                     accounts[i].password = encryptedPassword;
-                    localStorage.setItem("accounts", JSON.stringify(accounts));
-                    return;
+                    accountUpdated = true;
                 }
             }
-            var newAccount = {
-                id: id,
-                account_name: accountName,
-                user_name: userName,
-                password: encryptedPassword
-            };
+            if (!accountUpdated) {
+                var newAccount = {
+                    id: id,
+                    account_name: accountName,
+                    user_name: userName,
+                    password: encryptedPassword
+                };
+            }
             accounts.push(newAccount);
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
