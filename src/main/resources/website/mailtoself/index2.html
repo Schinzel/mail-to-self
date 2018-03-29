@@ -51,14 +51,15 @@
 
 
     var AccountSaver = (function () {
-        var mOnSaveFunction;
+        var mOnSaveDoneFunction;
         var mHtml = ''
             + '<label for="account_name">Name</label>'
             + '<input type="text" id="account_name">'
             + '<label for="user_name">Gmail Username</label>'
             + '<input type="text" id="user_name">'
             + '<label for="password">Gmail Password</label>'
-            + '<input type="password" id="password">';
+            + '<input type="password" id="password">'
+            + '<input type="hidden" id="account_id">';
 
 
         function _saveSettings() {
@@ -79,30 +80,30 @@
 
 
         function _saveToLocalStorage(encryptedPassword) {
-            var accountId = Tabs.getIdOfActiveTab();
+            var accountId = document.getElementById("account_id").value;
             var accountName = document.getElementById("account_name").value;
             var userName = document.getElementById("user_name").value;
             if (!accountName || !userName) {
-                notify("Dude. You forgot to set the account name or user name..");
+                notify("Dude. You forgot to set the account name or user name...");
                 return;
             }
             Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
             notify('Saved settings');
-            mOnSaveFunction();
+            mOnSaveDoneFunction();
         }
 
         return {
-            render: function (elementId, onSaveFunction) {
-                mOnSaveFunction = onSaveFunction;
+            render: function (elementId, onSaveDoneFunction, accountId, accountName, userName) {
+                mOnSaveDoneFunction = onSaveDoneFunction;
                 document.getElementById(elementId).innerHTML = mHtml;
                 var saveButton = document.createElement('button');
                 saveButton.type = 'button';
                 saveButton.innerText = 'SAVE';
                 saveButton.onclick = _saveSettings;
                 document.getElementById(elementId).appendChild(saveButton);
-                var accountId = Tabs.getIdOfActiveTab();
-                document.getElementById("account_name").value = Accounts.getAccountName(accountId);
-                document.getElementById("user_name").value = Accounts.getUserName(accountId);
+                document.getElementById("account_id").value = accountId;
+                document.getElementById("account_name").value = accountName;
+                document.getElementById("user_name").value = userName;
                 document.getElementById("password").value = "";
             }
         }
@@ -112,7 +113,16 @@
     function goToSettings() {
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
-        AccountSaver.render('accountSaver', goToSend);
+        var accountId = Tabs.getIdOfActiveTab();
+        var accountName = Accounts.getAccountName(accountId);
+        var userName = Accounts.getUserName(accountId);
+        AccountSaver.render('accountSaver', goToSend, accountId, accountName, userName);
+    }
+
+
+    function createNewAccount() {
+        var accountId = Accounts.getRandomAccountId();
+        AccountSaver.render('accountSaver', goToSend, accountId, '', '');
     }
 
 
@@ -187,7 +197,7 @@
 <div id="areaSettings">
     <h1>Settings</h1>
     <div id="accountSaver"></div>
-    <button type="button" onClick="">ADD ACCOUNT</button>
+    <button type="button" onClick="createNewAccount();">ADD ACCOUNT</button>
     <a href="javascript:goToSend();">Back</a>
 </div>
 

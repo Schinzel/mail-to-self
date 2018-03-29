@@ -41,17 +41,17 @@ var Accounts = (function () {
     }
 
 
-    function getRandomString(length) {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < length; i++)
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        return text;
-    }
-
-
     return {
-        saveAccount: function(id, accountName, userName, encryptedPassword) {
+        getRandomAccountId: function () {
+            var length = 8;
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < length; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            return text;
+        },
+
+        saveAccount: function (id, accountName, userName, encryptedPassword) {
             var accounts = _getAccounts();
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i].id === id) {
@@ -59,9 +59,19 @@ var Accounts = (function () {
                     accounts[i].user_name = userName;
                     accounts[i].password = encryptedPassword;
                     localStorage.setItem("accounts", JSON.stringify(accounts));
+                    return;
                 }
             }
+            var newAccount = {
+                id: id,
+                account_name: accountName,
+                user_name: userName,
+                password: encryptedPassword
+            };
+            accounts.push(newAccount);
+            localStorage.setItem("accounts", JSON.stringify(accounts));
         },
+
         getAccountIds: function () {
             var accountIds = [];
             var accounts = _getAccounts();
@@ -70,6 +80,7 @@ var Accounts = (function () {
             }
             return accountIds;
         },
+
         /**
          *
          * @param id
@@ -78,6 +89,7 @@ var Accounts = (function () {
         getUserName: function (id) {
             return _getAccount(id).user_name;
         },
+
         /**
          *
          * @param id
@@ -86,6 +98,7 @@ var Accounts = (function () {
         getEncryptedPassword: function (id) {
             return _getAccount(id).password;
         },
+
         /**
          *
          * @param id

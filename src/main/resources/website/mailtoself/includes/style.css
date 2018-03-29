@@ -52,7 +52,7 @@ button {
     outline:none;
 }
 
-button:focus{
+button:active{
     outline:none;
     background: darkslategrey;
 }
