@@ -34,7 +34,7 @@
             render: function (elementId) {
                 document.getElementById(elementId).innerHTML = '';
                 var accountIds = Accounts.getAccountIds();
-                if (accountIds && accountIds.length > 1) {
+                if (accountIds && accountIds.length > 0) {
                     for (var i = 0; i < accountIds.length; i++) {
                         var isActiveTab = (i === 0);
                         var accountName = Accounts.getAccountName(accountIds[i]);
@@ -43,8 +43,12 @@
                     }
                 }
             },
+            isNotEmpty: function () {
+                return document.getElementsByClassName("activeTab")[0] !== undefined;
+            },
             getIdOfActiveTab: function () {
-                return document.getElementsByClassName("activeTab")[0].dataset.accountId;
+                var activeTab = document.getElementsByClassName("activeTab")[0];
+                return activeTab ? activeTab.dataset.accountId : "";
             }
         };
     }());
@@ -52,6 +56,7 @@
 
     var AccountSaver = (function () {
         var mOnSaveDoneFunction;
+        var mAccountId;
         var mHtml = ''
             + '<label for="account_name">Name</label>'
             + '<input type="text" id="account_name">'
@@ -59,7 +64,8 @@
             + '<input type="text" id="user_name">'
             + '<label for="password">Gmail Password</label>'
             + '<input type="password" id="password">'
-            + '<input type="hidden" id="account_id">';
+            + '<button type="button" id="save_account">Save</button>'
+            + '<button type="button" id="remove_account">Remove Account</button>';
 
 
         function _saveSettings() {
@@ -80,31 +86,35 @@
 
 
         function _saveToLocalStorage(encryptedPassword) {
-            var accountId = document.getElementById("account_id").value;
             var accountName = document.getElementById("account_name").value;
             var userName = document.getElementById("user_name").value;
             if (!accountName || !userName) {
                 notify("Dude. You forgot to set the account name or user name...");
                 return;
             }
-            Accounts.saveAccount(accountId, accountName, userName, encryptedPassword);
+            Accounts.saveAccount(mAccountId, accountName, userName, encryptedPassword);
             notify('Saved settings');
             mOnSaveDoneFunction();
         }
 
+
+        function _removeAccount() {
+            Accounts.removeAccount(mAccountId);
+            notify('Account removed');
+            mOnSaveDoneFunction();
+        }
+
+
         return {
             render: function (elementId, onSaveDoneFunction, accountId, accountName, userName) {
                 mOnSaveDoneFunction = onSaveDoneFunction;
+                mAccountId = accountId;
                 document.getElementById(elementId).innerHTML = mHtml;
-                var saveButton = document.createElement('button');
-                saveButton.type = 'button';
-                saveButton.innerText = 'SAVE';
-                saveButton.onclick = _saveSettings;
-                document.getElementById(elementId).appendChild(saveButton);
-                document.getElementById("account_id").value = accountId;
                 document.getElementById("account_name").value = accountName;
                 document.getElementById("user_name").value = userName;
                 document.getElementById("password").value = "";
+                document.getElementById("save_account").onclick = _saveSettings;
+                document.getElementById("remove_account").onclick = _removeAccount;
             }
         }
     }());
@@ -113,10 +123,12 @@
     function goToSettings() {
         document.getElementById("areaSend").style.display = "none";
         document.getElementById("areaSettings").style.display = "block";
-        var accountId = Tabs.getIdOfActiveTab();
-        var accountName = Accounts.getAccountName(accountId);
-        var userName = Accounts.getUserName(accountId);
-        AccountSaver.render('accountSaver', goToSend, accountId, accountName, userName);
+        if (Tabs.isNotEmpty()) {
+            var accountId = Tabs.getIdOfActiveTab();
+            var accountName = Accounts.getAccountName(accountId);
+            var userName = Accounts.getUserName(accountId);
+            AccountSaver.render('accountSaver', goToSend, accountId, accountName, userName);
+        }
     }
 
 
@@ -127,7 +139,7 @@
 
 
     function goToSend() {
-        //Tabs.render('tabs');
+        Tabs.render('tabs');
         document.getElementById("areaSend").style.display = "block";
         document.getElementById("areaSettings").style.display = "none";
     }
@@ -197,7 +209,7 @@
 <div id="areaSettings">
     <h1>Settings</h1>
     <div id="accountSaver"></div>
-    <button type="button" onClick="createNewAccount();">ADD ACCOUNT</button>
+    <button type="button" onClick="createNewAccount();">Add Account</button>
     <a href="javascript:goToSend();">Back</a>
 </div>
 

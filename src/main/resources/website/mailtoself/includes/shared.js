@@ -51,6 +51,14 @@ var Accounts = (function () {
             return text;
         },
 
+        removeAccount: function (id) {
+            var accounts = _getAccounts();
+            accounts = accounts.filter(function(item) {
+                return item.id !== id
+            });
+            localStorage.setItem("accounts", JSON.stringify(accounts));
+        },
+
         saveAccount: function (id, accountName, userName, encryptedPassword) {
             var accounts = _getAccounts();
             var accountUpdated = false;
@@ -69,8 +77,8 @@ var Accounts = (function () {
                     user_name: userName,
                     password: encryptedPassword
                 };
+                accounts.push(newAccount);
             }
-            accounts.push(newAccount);
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
