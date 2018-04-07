@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<!--#include file="includes/header.html" -->
+
+
+<script>
+    function init() {
+        Tabs.render('tabs');
+        Sender.render('sender');
+        goToSend();
+    }
+
+
+    function goToSettings() {
+        document.getElementById("areaSend").style.display = "none";
+        document.getElementById("areaSettings").style.display = "block";
+        if (Tabs.isNotEmpty()) {
+            var accountId = Tabs.getIdOfActiveTab();
+            var accountDescription = Accounts.getAccountDescription(accountId);
+            var userName = Accounts.getUserName(accountId);
+            AccountSaver.render('accountSaver', goToSend, accountId, accountDescription, userName);
+        }
+    }
+
+
+    function createNewAccount() {
+        var accountId = Accounts.getRandomAccountId();
+        AccountSaver.render('accountSaver', goToSend, accountId, '', '');
+    }
+
+
+    function goToSend() {
+        Tabs.render('tabs');
+        document.getElementById("areaSend").style.display = "block";
+        document.getElementById("areaSettings").style.display = "none";
+    }
+
+
+    /**
+     * Display the argument message to user
+     * @param message Message to display
+     */
+    function notify(message) {
+        //Get element to place notification in
+        var notification = document.getElementById("notification");
+        //If there was no notification element on page
+        if (!notification) {
+            //Add notification element
+            notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.classList.add('notification');
+            document.body.appendChild(notification);
+        }
+        //Set notification text
+        notification.innerHTML = message;
+        //Display the notification
+        notification.style.display = 'block';
+        //Make the notification invisible after little bit
+        setTimeout(function () {
+                document.getElementById("notification").style.display = 'none';
+            },
+            1000);
+    }
+
+</script>
+
+
+<body>
+<h1>Mail To Self</h1>
+
+<div id="areaSend">
+    <div id="tabs"></div>
+    <div id="sender"></div>
+    <a href="javascript:goToSettings();">Settings</a>
+</div>
+
+<div id="areaSettings">
+    <h1>Settings</h1>
+    <div id="accountSaver"></div>
+    <button type="button" onClick="createNewAccount();">Add Account</button>
+    <a href="javascript:goToSend();">Back</a>
+</div>
+
+<script>init();</script>
+</body>
+</html>
