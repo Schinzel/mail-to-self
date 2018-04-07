@@ -27,7 +27,7 @@ div.tab {
     margin: 5px;
 }
 
-div.activeTab {
+div.active_tab {
     font-weight: bold;
 }
 
