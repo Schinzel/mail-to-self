@@ -18,14 +18,14 @@
             event.target.classList.add('activeTab');
         }
 
-        function _createTab(accountId, accountName, isActiveTab) {
+        function _createTab(accountId, accountDescription, isActiveTab) {
             var div = document.createElement('div');
             div.classList.add('tab');
             if (isActiveTab) {
                 div.classList.add('activeTab');
             }
             div.onclick = _toggleTabs;
-            div.innerHTML = accountName;
+            div.innerHTML = accountDescription;
             div.dataset.accountId = accountId;
             return div;
         }
@@ -37,8 +37,8 @@
                 if (accountIds && accountIds.length > 0) {
                     for (var i = 0; i < accountIds.length; i++) {
                         var isActiveTab = (i === 0);
-                        var accountName = Accounts.getAccountName(accountIds[i]);
-                        var div = _createTab(accountIds[i], accountName, isActiveTab);
+                        var accountDescription = Accounts.getAccountDescription(accountIds[i]);
+                        var div = _createTab(accountIds[i], accountDescription, isActiveTab);
                         document.getElementById(elementId).appendChild(div);
                     }
                 }
@@ -58,8 +58,8 @@
         var mOnSaveDoneFunction;
         var mAccountId;
         var mHtml = ''
-            + '<label for="account_name">Name</label>'
-            + '<input type="text" id="account_name">'
+            + '<label for="account_description">Description</label>'
+            + '<input type="text" id="account_description">'
             + '<label for="user_name">Gmail Username</label>'
             + '<input type="text" id="user_name">'
             + '<label for="password">Gmail Password</label>'
@@ -86,13 +86,13 @@
 
 
         function _saveToLocalStorage(encryptedPassword) {
-            var accountName = document.getElementById("account_name").value;
+            var accountDescription = document.getElementById("account_description").value;
             var userName = document.getElementById("user_name").value;
-            if (!accountName || !userName) {
-                notify("Dude. You forgot to set the account name or user name...");
+            if (!accountDescription || !userName) {
+                notify("Dude. You forgot to set the account description or user name...");
                 return;
             }
-            Accounts.saveAccount(mAccountId, accountName, userName, encryptedPassword);
+            Accounts.saveAccount(mAccountId, accountDescription, userName, encryptedPassword);
             notify('Saved settings');
             mOnSaveDoneFunction();
         }
@@ -106,11 +106,11 @@
 
 
         return {
-            render: function (elementId, onSaveDoneFunction, accountId, accountName, userName) {
+            render: function (elementId, onSaveDoneFunction, accountId, accountDescription, userName) {
                 mOnSaveDoneFunction = onSaveDoneFunction;
                 mAccountId = accountId;
                 document.getElementById(elementId).innerHTML = mHtml;
-                document.getElementById("account_name").value = accountName;
+                document.getElementById("account_description").value = accountDescription;
                 document.getElementById("user_name").value = userName;
                 document.getElementById("password").value = "";
                 document.getElementById("save_account").onclick = _saveSettings;
@@ -125,9 +125,9 @@
         document.getElementById("areaSettings").style.display = "block";
         if (Tabs.isNotEmpty()) {
             var accountId = Tabs.getIdOfActiveTab();
-            var accountName = Accounts.getAccountName(accountId);
+            var accountDescription = Accounts.getAccountDescription(accountId);
             var userName = Accounts.getUserName(accountId);
-            AccountSaver.render('accountSaver', goToSend, accountId, accountName, userName);
+            AccountSaver.render('accountSaver', goToSend, accountId, accountDescription, userName);
         }
     }
 

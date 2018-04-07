@@ -27,7 +27,8 @@ function notify(message) {
 var Accounts = (function () {
 
     function _getAccounts() {
-        return JSON.parse(localStorage.getItem("accounts"));
+        var accounts = JSON.parse(localStorage.getItem("accounts"));
+        return accounts ? accounts : [];
     }
 
 
@@ -59,12 +60,12 @@ var Accounts = (function () {
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
-        saveAccount: function (id, accountName, userName, encryptedPassword) {
+        saveAccount: function (id, accountDescription, userName, encryptedPassword) {
             var accounts = _getAccounts();
             var accountUpdated = false;
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i].id === id) {
-                    accounts[i].account_name = accountName;
+                    accounts[i].account_description = accountDescription;
                     accounts[i].user_name = userName;
                     accounts[i].password = encryptedPassword;
                     accountUpdated = true;
@@ -73,7 +74,7 @@ var Accounts = (function () {
             if (!accountUpdated) {
                 var newAccount = {
                     id: id,
-                    account_name: accountName,
+                    account_description: accountDescription,
                     user_name: userName,
                     password: encryptedPassword
                 };
@@ -85,7 +86,7 @@ var Accounts = (function () {
         getAccountIds: function () {
             var accountIds = [];
             var accounts = _getAccounts();
-            for (var i = 0; i < accounts.length; i++) {
+            for (var i = 0; accounts && i < accounts.length; i++) {
                 accountIds[i] = accounts[i].id;
             }
             return accountIds;
@@ -112,10 +113,10 @@ var Accounts = (function () {
         /**
          *
          * @param id
-         * @returns String The account name for the account at the argument index
+         * @returns String The account description for the account at the argument index
          */
-        getAccountName: function (id) {
-            return _getAccount(id).account_name;
+        getAccountDescription: function (id) {
+            return _getAccount(id).account_description;
         }
     };
 }());
