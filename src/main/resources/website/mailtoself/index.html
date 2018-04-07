@@ -4,70 +4,88 @@
 
 
 <script>
-    /**
-     * Send email to self
-     */
-    function send() {
-        //The the message to email
-        var mailContent = document.getElementById("mailContent").value;
-        //If there was no message to send
-        if (!mailContent) {
-            return;
-        }
-        var xhr = new XMLHttpRequest();
-        //Set callback to invoke on successful response from server
-        xhr.onload = function () {
-            //Empty message input box
-            document.getElementById("mailContent").value = "";
-            //Show server response to user
-            notify(xhr.responseText);
-            //Put focus in input box for user to start typing a new message
-            document.getElementById("mailContent").focus();
-        };
-        //Create request
-        xhr.open("post", "/call/mailMe", true);
-        //Send request to server
-        xhr.send(
-            "Message=" + encodeURIComponent(mailContent)
-            + "&Username=" + encodeURIComponent(localStorage.getItem("username"))
-            + "&Password=" + encodeURIComponent(localStorage.getItem("password"))
-        );
-    }
-
-
-    /**
-     * Init page
-     */
     function init() {
-        //Put focus in input box for user to start typing a message
-        document.getElementById("mailContent").focus();
-        //If either username or password is missing
-        if (!localStorage.getItem("username") || !localStorage.getItem("password")) {
-            //Alert user
-            alert("Settings missing. Set Gmail username and password.");
-            //Go to settings page
-            window.location.href = "settings.html";
+        Tabs.render('tabs');
+        Sender.render('sender');
+        goToSend();
+    }
+
+
+    function goToSettings() {
+        getbyId("areaSend").style.display = "none";
+        getbyId("areaSettings").style.display = "block";
+        if (Tabs.isNotEmpty()) {
+            var account_id = Tabs.getIdOfActiveTab();
+            var account_description = Accounts.getAccountDescription(account_id);
+            var user_name = Accounts.getUserName(account_id);
+            AccountSaver.render('accountSaver', goToSend, account_id, account_description, user_name);
         }
     }
+
+
+    function createNewAccount() {
+        var accountId = Accounts.getRandomAccountId();
+        AccountSaver.render('accountSaver', goToSend, accountId, '', '');
+    }
+
+
+    function goToSend() {
+        Tabs.render('tabs');
+        getbyId("areaSend").style.display = "block";
+        getbyId("areaSettings").style.display = "none";
+    }
+
+
+    function getbyId(id){
+        return document.getElementById(id);
+    }
+
+
+    /**
+     * Display the argument message to user
+     * @param message Message to display
+     */
+    function notify(message) {
+        //Get element to place notification in
+        var notification = getbyId("notification");
+        //If there was no notification element on page
+        if (!notification) {
+            //Add notification element
+            notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.classList.add('notification');
+            document.body.appendChild(notification);
+        }
+        //Set notification text
+        notification.innerHTML = message;
+        //Display the notification
+        notification.style.display = 'block';
+        //Make the notification invisible after little bit
+        setTimeout(function () {
+                getbyId("notification").style.display = 'none';
+            },
+            1000);
+    }
+
 </script>
 
 
 <body>
 <h1>Mail To Self</h1>
 
-<textarea
-        type="text"
-        id="mailContent"
-        onkeypress="if (event.keyCode===13) send();"
-        placeholder="Mail content here...">
-</textarea>
+<div id="areaSend">
+    <div id="tabs"></div>
+    <div id="sender"></div>
+    <a href="javascript:goToSettings();">Settings</a>
+</div>
 
-<button
-        type="button"
-        onClick="send();">SEND
-</button>
+<div id="areaSettings">
+    <h1>Settings</h1>
+    <div id="accountSaver"></div>
+    <button type="button" onClick="createNewAccount();">Add Account</button>
+    <a href="javascript:goToSend();">Back</a>
+</div>
 
-<a href="settings.html">Settings</a>
 <script>init();</script>
 </body>
 </html>
