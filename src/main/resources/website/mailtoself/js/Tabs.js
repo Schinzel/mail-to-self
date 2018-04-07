@@ -6,28 +6,28 @@ var Tabs = (function () {
         event.target.classList.add('activeTab');
     }
 
-    function _createTab(accountId, accountDescription, isActiveTab) {
+    function _createTab(account_id, account_description, is_active_tab) {
         var div = document.createElement('div');
         div.classList.add('tab');
-        if (isActiveTab) {
+        if (is_active_tab) {
             div.classList.add('activeTab');
         }
         div.onclick = _toggleTabs;
-        div.innerHTML = accountDescription;
-        div.dataset.accountId = accountId;
+        div.innerHTML = account_description;
+        div.dataset.accountId = account_id;
         return div;
     }
 
     return {
         render: function (elementId) {
-            document.getElementById(elementId).innerHTML = '';
+            getbyId(elementId).innerHTML = '';
             var accountIds = Accounts.getAccountIds();
             if (accountIds && accountIds.length > 0) {
                 for (var i = 0; i < accountIds.length; i++) {
                     var isActiveTab = (i === 0);
                     var accountDescription = Accounts.getAccountDescription(accountIds[i]);
                     var div = _createTab(accountIds[i], accountDescription, isActiveTab);
-                    document.getElementById(elementId).appendChild(div);
+                    getbyId(elementId).appendChild(div);
                 }
             }
         },

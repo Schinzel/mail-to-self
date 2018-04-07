@@ -12,13 +12,13 @@
 
 
     function goToSettings() {
-        document.getElementById("areaSend").style.display = "none";
-        document.getElementById("areaSettings").style.display = "block";
+        getbyId("areaSend").style.display = "none";
+        getbyId("areaSettings").style.display = "block";
         if (Tabs.isNotEmpty()) {
-            var accountId = Tabs.getIdOfActiveTab();
-            var accountDescription = Accounts.getAccountDescription(accountId);
-            var userName = Accounts.getUserName(accountId);
-            AccountSaver.render('accountSaver', goToSend, accountId, accountDescription, userName);
+            var account_id = Tabs.getIdOfActiveTab();
+            var account_description = Accounts.getAccountDescription(account_id);
+            var user_name = Accounts.getUserName(account_id);
+            AccountSaver.render('accountSaver', goToSend, account_id, account_description, user_name);
         }
     }
 
@@ -31,8 +31,13 @@
 
     function goToSend() {
         Tabs.render('tabs');
-        document.getElementById("areaSend").style.display = "block";
-        document.getElementById("areaSettings").style.display = "none";
+        getbyId("areaSend").style.display = "block";
+        getbyId("areaSettings").style.display = "none";
+    }
+
+
+    function getbyId(id){
+        return document.getElementById(id);
     }
 
 
@@ -57,7 +62,7 @@
         notification.style.display = 'block';
         //Make the notification invisible after little bit
         setTimeout(function () {
-                document.getElementById("notification").style.display = 'none';
+                getbyId("notification").style.display = 'none';
             },
             1000);
     }

@@ -34,36 +34,36 @@ var Accounts = (function () {
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
-        saveAccount: function (id, accountDescription, userName, encryptedPassword) {
+        saveAccount: function (id, account_description, user_name, encrypted_password) {
             var accounts = _getAccounts();
-            var accountUpdated = false;
+            var account_updated = false;
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i].id === id) {
-                    accounts[i].account_description = accountDescription;
-                    accounts[i].user_name = userName;
-                    accounts[i].password = encryptedPassword;
-                    accountUpdated = true;
+                    accounts[i].account_description = account_description;
+                    accounts[i].user_name = user_name;
+                    accounts[i].password = encrypted_password;
+                    account_updated = true;
                 }
             }
-            if (!accountUpdated) {
-                var newAccount = {
+            if (!account_updated) {
+                var new_account = {
                     id: id,
-                    account_description: accountDescription,
-                    user_name: userName,
-                    password: encryptedPassword
+                    account_description: account_description,
+                    user_name: user_name,
+                    password: encrypted_password
                 };
-                accounts.push(newAccount);
+                accounts.push(new_account);
             }
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
         getAccountIds: function () {
-            var accountIds = [];
+            var account_ids = [];
             var accounts = _getAccounts();
             for (var i = 0; accounts && i < accounts.length; i++) {
-                accountIds[i] = accounts[i].id;
+                account_ids[i] = accounts[i].id;
             }
-            return accountIds;
+            return account_ids;
         },
 
         /**

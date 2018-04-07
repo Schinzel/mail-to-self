@@ -1,7 +1,7 @@
 var AccountSaver = (function () {
-    var mOnSaveDoneFunction;
-    var mAccountId;
-    var mHtml = ''
+    var m_on_save_done_function;
+    var m_account_id;
+    var m_html = ''
         + '<label for="account_description">Description</label>'
         + '<input type="text" id="account_description">'
         + '<label for="user_name">Gmail Username</label>'
@@ -13,7 +13,7 @@ var AccountSaver = (function () {
 
 
     function _saveSettings() {
-        var password = document.getElementById("password").value;
+        var password = getbyId("password").value;
         if (!password) {
             notify("Dude. You forgot to set the password..");
             return;
@@ -24,41 +24,41 @@ var AccountSaver = (function () {
         };
         xhr.open("post", "/call/encryptPassword", true);
         //Encode so that can send special chars
-        var mailContent = encodeURIComponent(password);
-        xhr.send("Password=" + mailContent);
+        var mail_content = encodeURIComponent(password);
+        xhr.send("Password=" + mail_content);
     }
 
 
-    function _saveToLocalStorage(encryptedPassword) {
-        var accountDescription = document.getElementById("account_description").value;
-        var userName = document.getElementById("user_name").value;
-        if (!accountDescription || !userName) {
+    function _saveToLocalStorage(encrypted_password) {
+        var account_description = getbyId("account_description").value;
+        var user_name = getbyId("user_name").value;
+        if (!account_description || !user_name) {
             notify("Dude. You forgot to set the account description or user name...");
             return;
         }
-        Accounts.saveAccount(mAccountId, accountDescription, userName, encryptedPassword);
+        Accounts.saveAccount(m_account_id, account_description, user_name, encrypted_password);
         notify('Saved settings');
-        mOnSaveDoneFunction();
+        m_on_save_done_function();
     }
 
 
     function _removeAccount() {
-        Accounts.removeAccount(mAccountId);
+        Accounts.removeAccount(m_account_id);
         notify('Account removed');
-        mOnSaveDoneFunction();
+        m_on_save_done_function();
     }
 
 
     return {
-        render: function (elementId, onSaveDoneFunction, accountId, accountDescription, userName) {
-            mOnSaveDoneFunction = onSaveDoneFunction;
-            mAccountId = accountId;
-            document.getElementById(elementId).innerHTML = mHtml;
-            document.getElementById("account_description").value = accountDescription;
-            document.getElementById("user_name").value = userName;
-            document.getElementById("password").value = "";
-            document.getElementById("save_account").onclick = _saveSettings;
-            document.getElementById("remove_account").onclick = _removeAccount;
+        render: function (element_id, on_save_done_function, account_id, account_description, user_name) {
+            m_on_save_done_function = on_save_done_function;
+            m_account_id = account_id;
+            getbyId(element_id).innerHTML = m_html;
+            getbyId("account_description").value = account_description;
+            getbyId("user_name").value = user_name;
+            getbyId("password").value = "";
+            getbyId("save_account").onclick = _saveSettings;
+            getbyId("remove_account").onclick = _removeAccount;
         }
     }
 }());

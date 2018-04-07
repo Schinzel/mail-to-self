@@ -1,30 +1,30 @@
 var Sender = (function () {
     function _send() {
         //The the message to email
-        var mailContent = document.getElementById("mailContent").value;
+        var mail_content = getbyId("mailContent").value;
         //If there was no message to send
-        if (!mailContent) {
+        if (!mail_content) {
             return;
         }
         var xhr = new XMLHttpRequest();
         //Set callback to invoke on successful response from server
         xhr.onload = function () {
             //Empty message input box
-            document.getElementById("mailContent").value = "";
+            getbyId("mailContent").value = "";
             //Show server response to user
             notify(xhr.responseText);
             //Put focus in input box for user to start typing a new message
-            document.getElementById("mailContent").focus();
+            getbyId("mailContent").focus();
         };
         //Create request
         xhr.open("post", "/call/mailMe", true);
         var id = Tabs.getIdOfActiveTab();
-        var userName = Accounts.getUserName(id);
+        var user_name = Accounts.getUserName(id);
         var password = Accounts.getEncryptedPassword(id);
         //Send request to server
         xhr.send(
-            "Message=" + encodeURIComponent(mailContent)
-            + "&Username=" + encodeURIComponent(userName)
+            "Message=" + encodeURIComponent(mail_content)
+            + "&Username=" + encodeURIComponent(user_name)
             + "&Password=" + encodeURIComponent(password)
         );
     }
@@ -37,12 +37,12 @@ var Sender = (function () {
             textarea.onkeypress = function () {
                 if (event.keyCode === 13) _send();
             };
-            var saveButton = document.createElement('button');
-            saveButton.type = 'button';
-            saveButton.innerText = 'SEND';
-            saveButton.onclick = _send;
-            document.getElementById(elementId).appendChild(textarea);
-            document.getElementById(elementId).appendChild(saveButton);
+            var save_button = document.createElement('button');
+            save_button.type = 'button';
+            save_button.innerText = 'SEND';
+            save_button.onclick = _send;
+            getbyId(elementId).appendChild(textarea);
+            getbyId(elementId).appendChild(save_button);
         }
     };
 }());
