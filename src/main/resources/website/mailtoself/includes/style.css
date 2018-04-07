@@ -1,11 +1,14 @@
+/* Color picker
+http://www.htmlcsscolor.com/hex/666666
+*/
 body {
-    background-color: linen;
+    background-color: #D9EAD3;
     text-align: center;
     font-family: verdana, sans-serif;
 }
 
 h1 {
-    color: maroon;
+    color: #666666;
 }
 
 input[type=text], input[type=password], textarea {
@@ -22,7 +25,7 @@ input[type=text], input[type=password], textarea {
 }
 
 div.tab {
-    color: darkslategrey;
+    color: #666666;
     display:inline;
     margin: 5px;
 }
@@ -34,7 +37,7 @@ div.active_tab {
 label{
     font-size: 20px;
     font-weight: bold;
-    color: darkslategrey;
+    color: #666666;
 }
 
 button {
