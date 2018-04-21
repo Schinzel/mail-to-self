@@ -19,7 +19,7 @@ var AccountSaver = (function () {
     function _saveSettings() {
         var password = Elem.getById("password").value;
         if (!password) {
-            notify("Dude. You forgot to set the password..");
+            Notification.notify("Dude. You forgot to set the password..");
             return;
         }
         var xhr = new XMLHttpRequest();
@@ -37,18 +37,18 @@ var AccountSaver = (function () {
         var account_description = Elem.getById("account_description").value;
         var user_name = Elem.getById("user_name").value;
         if (!account_description || !user_name) {
-            notify("Dude. You forgot to set the account description or user name...");
+            Notification.notify("Dude. You forgot to set the account description or user name...");
             return;
         }
         Accounts.saveAccount(m_account_id, account_description, user_name, encrypted_password);
-        notify('Saved settings');
+        Notification.notify('Saved settings');
         m_on_save_done_function();
     }
 
 
     function _removeAccount() {
         Accounts.removeAccount(m_account_id);
-        notify('Account removed');
+        Notification.notify('Account removed');
         m_on_save_done_function();
     }
 

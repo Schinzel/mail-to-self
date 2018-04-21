@@ -16,7 +16,7 @@ var Sender = (function () {
             //Empty message input box
             Elem.getById("mail_content").value = "";
             //Show server response to user
-            notify(xhr.responseText);
+            Notification.notify(xhr.responseText);
             //Put focus in input box for user to start typing a new message
             Elem.getById("mail_content").focus();
         };

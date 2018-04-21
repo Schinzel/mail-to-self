@@ -12,54 +12,27 @@
 
 
     function goToSettings() {
-        Elem.hide('areaSend').show('areaSettings');
+        Elem.show('settings_area').hide('send_area');
         if (Tabs.isNotEmpty()) {
             var account_id = Tabs.getIdOfActiveTab();
             var account_description = Accounts.getAccountDescription(account_id);
             var user_name = Accounts.getUserName(account_id);
-            AccountSaver.render('accountSaver', goToSend, account_id, account_description, user_name);
+            AccountSaver.render('account_settings_area', goToSend, account_id, account_description, user_name);
         }
     }
 
 
     function createNewAccount() {
-        var accountId = Accounts.getRandomAccountId();
-        AccountSaver.render('accountSaver', goToSend, accountId, '', '');
+        var account_id = Accounts.getRandomAccountId();
+        AccountSaver.render('account_settings_area', goToSend, account_id, '', '');
     }
 
 
     function goToSend() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
-        Elem.show('areaSend').hide('areaSettings');
+        Elem.show('send_area').hide('settings_area');
     }
 
-
-    /**
-     * Display the argument message to user
-     * @param message Message to display
-     */
-    function notify(message) {
-        //Get element to place notification in
-        var notification = Elem.getById("notification");
-        //If there was no notification element on page
-        if (!notification) {
-            //Create notifications div
-            notification = document.createElement('div');
-            notification.id = 'notification';
-            notification.classList.add('notification');
-            //Add notification element
-            document.body.appendChild(notification);
-        }
-        //Set notification text
-        notification.innerHTML = message;
-        //Display the notification
-        Elem.show('notification');
-        //Make the notification invisible after little bit
-        setTimeout(function () {
-                Elem.hide('notification');
-            },
-            1000);
-    }
 
 </script>
 
@@ -67,15 +40,15 @@
 <body>
 <h1>Mail To Self</h1>
 
-<div id="areaSend">
+<div id="send_area">
     <div id="tabs"></div>
     <div id="sender"></div>
     <a href="javascript:goToSettings();">Settings</a>
 </div>
 
-<div id="areaSettings">
+<div id="settings_area">
     <h1>Settings</h1>
-    <div id="accountSaver"></div>
+    <div id="account_settings_area"></div>
     <button type="button" onClick="createNewAccount();">Add Account</button>
     <a href="javascript:goToSend();">Back</a>
 </div>
