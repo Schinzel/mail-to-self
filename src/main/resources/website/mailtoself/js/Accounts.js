@@ -57,6 +57,10 @@ var Accounts = (function () {
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
+        /**
+         *
+         * @returns {Array} The account ids as an array
+         */
         getAccountIds: function () {
             var account_ids = [];
             var accounts = _getAccounts();
@@ -64,6 +68,20 @@ var Accounts = (function () {
                 account_ids[i] = accounts[i].id;
             }
             return account_ids;
+        },
+
+
+        /**
+         *
+         * @returns {Array} The account descriptions as an array
+         */
+        getAccountDescriptions: function () {
+            var account_descriptions = [];
+            var accounts = _getAccounts();
+            for (var i = 0; accounts && i < accounts.length; i++) {
+                account_descriptions[i] = accounts[i].account_description;
+            }
+            return account_descriptions;
         },
 
         /**

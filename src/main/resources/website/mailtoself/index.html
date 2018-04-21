@@ -5,7 +5,7 @@
 
 <script>
     function init() {
-        Tabs.render('tabs');
+        Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         Sender.render('sender');
         goToSend();
     }
@@ -30,7 +30,7 @@
 
 
     function goToSend() {
-        Tabs.render('tabs');
+        Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         getbyId("areaSend").style.display = "block";
         getbyId("areaSettings").style.display = "none";
     }

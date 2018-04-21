@@ -41,18 +41,21 @@ var Tabs = (function () {
         /**
          * Initializer. Renders a set of tabs.
          *
-         * @param elementId The HTML element into which the set of tabs will be rendered.
+         * @param elementId The html element into which the html of tabs will be rendered.
+         * @param account_ids A set of account ids. In same order as descriptions.
+         * @param account_descriptions A set of account descriptions. In same order as ids.
          */
-        render: function (elementId) {
+        render: function (elementId, account_ids, account_descriptions) {
+            //Clear the element into which the tabs will be injected
             getbyId(elementId).innerHTML = '';
-            var accountIds = Accounts.getAccountIds();
-            if (accountIds && accountIds.length > 0) {
-                for (var i = 0; i < accountIds.length; i++) {
-                    var is_active_tab = (i === 0);
-                    var account_description = Accounts.getAccountDescription(accountIds[i]);
-                    var div = _createTab(accountIds[i], account_description, is_active_tab);
-                    getbyId(elementId).appendChild(div);
-                }
+            //If there are tabs, go through tabs
+            for (var i = 0; account_ids && i < account_ids.length; i++) {
+                //Is active tab if is first tab
+                var is_active_tab = (i === 0);
+                //Create html of tab
+                var div = _createTab(account_ids[i], account_descriptions[i], is_active_tab);
+                //Add newly created div tab
+                getbyId(elementId).appendChild(div);
             }
         },
 
