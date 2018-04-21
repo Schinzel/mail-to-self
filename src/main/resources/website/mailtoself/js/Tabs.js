@@ -47,7 +47,7 @@ var Tabs = (function () {
          */
         render: function (elementId, account_ids, account_descriptions) {
             //Clear the element into which the tabs will be injected
-            getbyId(elementId).innerHTML = '';
+            Elem.getById(elementId).innerHTML = '';
             //If there are tabs, go through tabs
             for (var i = 0; account_ids && i < account_ids.length; i++) {
                 //Is active tab if is first tab
@@ -55,7 +55,7 @@ var Tabs = (function () {
                 //Create html of tab
                 var div = _createTab(account_ids[i], account_descriptions[i], is_active_tab);
                 //Add newly created div tab
-                getbyId(elementId).appendChild(div);
+                Elem.getById(elementId).appendChild(div);
             }
         },
 

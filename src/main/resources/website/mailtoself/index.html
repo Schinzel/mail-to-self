@@ -12,8 +12,7 @@
 
 
     function goToSettings() {
-        getbyId("areaSend").style.display = "none";
-        getbyId("areaSettings").style.display = "block";
+        Elem.hide('areaSend').show('areaSettings');
         if (Tabs.isNotEmpty()) {
             var account_id = Tabs.getIdOfActiveTab();
             var account_description = Accounts.getAccountDescription(account_id);
@@ -31,13 +30,7 @@
 
     function goToSend() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
-        getbyId("areaSend").style.display = "block";
-        getbyId("areaSettings").style.display = "none";
-    }
-
-
-    function getbyId(id){
-        return document.getElementById(id);
+        Elem.show('areaSend').hide('areaSettings');
     }
 
 
@@ -47,7 +40,7 @@
      */
     function notify(message) {
         //Get element to place notification in
-        var notification = getbyId("notification");
+        var notification = Elem.getById("notification");
         //If there was no notification element on page
         if (!notification) {
             //Add notification element
@@ -59,10 +52,10 @@
         //Set notification text
         notification.innerHTML = message;
         //Display the notification
-        notification.style.display = 'block';
+        Elem.show('notification');
         //Make the notification invisible after little bit
         setTimeout(function () {
-                getbyId("notification").style.display = 'none';
+                Elem.hide('notification');
             },
             1000);
     }
