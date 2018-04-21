@@ -1,3 +1,7 @@
+/**
+ *
+ * The UI for saving account information.
+ */
 var AccountSaver = (function () {
     var m_on_save_done_function;
     var m_account_id;
@@ -13,9 +17,9 @@ var AccountSaver = (function () {
 
 
     function _saveSettings() {
-        var password = getbyId("password").value;
+        var password = Elem.getById("password").value;
         if (!password) {
-            notify("Dude. You forgot to set the password..");
+            Notification.notify("Dude. You forgot to set the password..");
             return;
         }
         var xhr = new XMLHttpRequest();
@@ -30,21 +34,21 @@ var AccountSaver = (function () {
 
 
     function _saveToLocalStorage(encrypted_password) {
-        var account_description = getbyId("account_description").value;
-        var user_name = getbyId("user_name").value;
+        var account_description = Elem.getById("account_description").value;
+        var user_name = Elem.getById("user_name").value;
         if (!account_description || !user_name) {
-            notify("Dude. You forgot to set the account description or user name...");
+            Notification.notify("Dude. You forgot to set the account description or user name...");
             return;
         }
         Accounts.saveAccount(m_account_id, account_description, user_name, encrypted_password);
-        notify('Saved settings');
+        Notification.notify('Saved settings');
         m_on_save_done_function();
     }
 
 
     function _removeAccount() {
         Accounts.removeAccount(m_account_id);
-        notify('Account removed');
+        Notification.notify('Account removed');
         m_on_save_done_function();
     }
 
@@ -53,12 +57,12 @@ var AccountSaver = (function () {
         render: function (element_id, on_save_done_function, account_id, account_description, user_name) {
             m_on_save_done_function = on_save_done_function;
             m_account_id = account_id;
-            getbyId(element_id).innerHTML = m_html;
-            getbyId("account_description").value = account_description;
-            getbyId("user_name").value = user_name;
-            getbyId("password").value = "";
-            getbyId("save_account").onclick = _saveSettings;
-            getbyId("remove_account").onclick = _removeAccount;
+            Elem.getById(element_id).innerHTML = m_html;
+            Elem.getById("account_description").value = account_description;
+            Elem.getById("user_name").value = user_name;
+            Elem.getById("password").value = "";
+            Elem.getById("save_account").onclick = _saveSettings;
+            Elem.getById("remove_account").onclick = _removeAccount;
         }
     }
 }());
