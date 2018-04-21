@@ -32,7 +32,7 @@ var Elem = (function () {
         hide: function (id) {
             Elem.getById(id).style.display = 'none';
             return this;
-        },
+        }
     };
 
-}());
+}());2

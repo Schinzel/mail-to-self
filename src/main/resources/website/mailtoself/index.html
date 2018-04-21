@@ -43,10 +43,11 @@
         var notification = Elem.getById("notification");
         //If there was no notification element on page
         if (!notification) {
-            //Add notification element
+            //Create notifications div
             notification = document.createElement('div');
             notification.id = 'notification';
             notification.classList.add('notification');
+            //Add notification element
             document.body.appendChild(notification);
         }
         //Set notification text

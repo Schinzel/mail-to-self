@@ -1,6 +1,6 @@
 /**
- * Renders and represents the email account tabs.
  *
+ * Renders and represents the email account tabs.
  */
 var Tabs = (function () {
 

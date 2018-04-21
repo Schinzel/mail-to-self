@@ -1,3 +1,7 @@
+/**
+ *
+ * The UI for saving account information.
+ */
 var AccountSaver = (function () {
     var m_on_save_done_function;
     var m_account_id;

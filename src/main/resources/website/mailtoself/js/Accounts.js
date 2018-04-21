@@ -1,3 +1,7 @@
+/**
+ *
+ * Represents the accounts stored in the browser's local storage.
+ */
 var Accounts = (function () {
 
     function _getAccounts() {

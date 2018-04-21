@@ -1,3 +1,7 @@
+/**
+ *
+ * The UI for sending an email.
+ */
 var Sender = (function () {
     function _send() {
         //The the message to email
