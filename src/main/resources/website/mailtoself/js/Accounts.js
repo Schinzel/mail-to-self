@@ -21,6 +21,10 @@ var Accounts = (function () {
 
 
     return {
+        /**
+         *
+         * @returns {string} A newly generated random account id
+         */
         getRandomAccountId: function () {
             var length = 8;
             var text = "";
@@ -30,19 +34,34 @@ var Accounts = (function () {
             return text;
         },
 
-        removeAccount: function (id) {
+
+        /**
+         * Remove the account with the argument account id
+         *
+         * @param account_id
+         */
+        removeAccount: function (account_id) {
             var accounts = _getAccounts();
             accounts = accounts.filter(function(item) {
-                return item.id !== id
+                return item.id !== account_id
             });
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
-        saveAccount: function (id, account_description, user_name, encrypted_password) {
+
+        /**
+         * Save the argument account
+         *
+         * @param account_id
+         * @param account_description
+         * @param user_name
+         * @param encrypted_password
+         */
+        saveAccount: function (account_id, account_description, user_name, encrypted_password) {
             var accounts = _getAccounts();
             var account_updated = false;
             for (var i = 0; i < accounts.length; i++) {
-                if (accounts[i].id === id) {
+                if (accounts[i].id === account_id) {
                     accounts[i].account_description = account_description;
                     accounts[i].user_name = user_name;
                     accounts[i].password = encrypted_password;
@@ -51,7 +70,7 @@ var Accounts = (function () {
             }
             if (!account_updated) {
                 var new_account = {
-                    id: id,
+                    id: account_id,
                     account_description: account_description,
                     user_name: user_name,
                     password: encrypted_password
@@ -61,9 +80,10 @@ var Accounts = (function () {
             localStorage.setItem("accounts", JSON.stringify(accounts));
         },
 
+
         /**
          *
-         * @returns {Array} The account ids as an array
+         * @returns {Array} All the account ids as an array
          */
         getAccountIds: function () {
             var account_ids = [];
@@ -77,7 +97,7 @@ var Accounts = (function () {
 
         /**
          *
-         * @returns {Array} The account descriptions as an array
+         * @returns {Array} All the account descriptions as an array
          */
         getAccountDescriptions: function () {
             var account_descriptions = [];
@@ -88,31 +108,34 @@ var Accounts = (function () {
             return account_descriptions;
         },
 
-        /**
-         *
-         * @param id
-         * @returns String The user name for the account at the argument index
-         */
-        getUserName: function (id) {
-            return _getAccount(id).user_name;
-        },
 
         /**
          *
-         * @param id
-         * @returns String The encrypted password for the account at the argument index
+         * @param account_id
+         * @returns String The user name for the account with the argument id
          */
-        getEncryptedPassword: function (id) {
-            return _getAccount(id).password;
+        getUserName: function (account_id) {
+            return _getAccount(account_id).user_name;
         },
+
 
         /**
          *
-         * @param id
-         * @returns String The account description for the account at the argument index
+         * @param account_id
+         * @returns String The encrypted password for the account at the argument id
          */
-        getAccountDescription: function (id) {
-            return _getAccount(id).account_description;
+        getEncryptedPassword: function (account_id) {
+            return _getAccount(account_id).password;
+        },
+
+
+        /**
+         *
+         * @param account_id
+         * @returns String The account description for the account with the argument id
+         */
+        getAccountDescription: function (account_id) {
+            return _getAccount(account_id).account_description;
         }
     };
 }());

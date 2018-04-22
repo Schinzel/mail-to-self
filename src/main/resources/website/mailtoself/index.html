@@ -7,32 +7,51 @@
     function init() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         Sender.render('sender');
-        goToSend();
+        displaySendUI();
     }
 
 
-    function goToSettings() {
+    /**
+     * Display settings UI.
+     */
+    function displaySettingsUI() {
         Elem.show('settings_area').hide('send_area');
         if (Tabs.isNotEmpty()) {
             var account_id = Tabs.getIdOfActiveTab();
             var account_description = Accounts.getAccountDescription(account_id);
             var user_name = Accounts.getUserName(account_id);
-            AccountSaver.render('account_settings_area', goToSend, account_id, account_description, user_name);
+            AccountSaver.render('account_settings_area', displaySendUI, account_id, account_description, user_name);
         }
     }
 
 
-    function createNewAccount() {
-        var account_id = Accounts.getRandomAccountId();
-        AccountSaver.render('account_settings_area', goToSend, account_id, '', '');
-    }
-
-
-    function goToSend() {
+    /**
+     * Display send UI.
+     */
+    function displaySendUI() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         Elem.show('send_area').hide('settings_area');
     }
 
+
+    /**
+     * Displays the settings UI with empty fields for creating a new account.
+     */
+    function createNewAccount() {
+        var account_id = Accounts.getRandomAccountId();
+        AccountSaver.render('account_settings_area', displaySendUI, account_id, '', '');
+    }
+
+
+    /**
+     * Removes the account of the active tab.
+     */
+    function removeAccount() {
+        var account_id = Tabs.getIdOfActiveTab();
+        Accounts.removeAccount(account_id);
+        Notification.notify('Account removed');
+        displaySendUI();
+    }
 
 </script>
 
@@ -43,14 +62,15 @@
 <div id="send_area">
     <div id="tabs"></div>
     <div id="sender"></div>
-    <a href="javascript:goToSettings();">Settings</a>
+    <a href="javascript:displaySettingsUI();">Settings</a>
 </div>
 
 <div id="settings_area">
     <h1>Settings</h1>
     <div id="account_settings_area"></div>
     <button type="button" onClick="createNewAccount();">Add Account</button>
-    <a href="javascript:goToSend();">Back</a>
+    <button type="button" onclick="removeAccount();" id="remove_account">Remove Account</button>
+    <a href="javascript:displaySendUI();">Back</a>
 </div>
 
 <script>init();</script>
