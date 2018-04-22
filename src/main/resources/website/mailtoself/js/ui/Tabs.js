@@ -1,6 +1,6 @@
 /**
  *
- * Renders and represents the email account tabs.
+ * The UI for the email accounts tabs.
  */
 var Tabs = (function () {
 
@@ -36,6 +36,7 @@ var Tabs = (function () {
         div.dataset.accountId = account_id;
         return div;
     }
+
 
     return {
         /**

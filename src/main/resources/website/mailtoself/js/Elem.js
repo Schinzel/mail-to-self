@@ -4,7 +4,7 @@
  */
 var Elem = (function () {
 
-    return{
+    return {
         /**
          *
          * @param id The if of the html element to return
@@ -13,6 +13,7 @@ var Elem = (function () {
         getById: function (id) {
             return document.getElementById(id);
         },
+
 
         /**
          *
@@ -23,6 +24,7 @@ var Elem = (function () {
             Elem.getById(id).style.display = 'block';
             return this;
         },
+
 
         /**
          *

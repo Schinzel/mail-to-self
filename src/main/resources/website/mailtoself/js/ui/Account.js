@@ -1,6 +1,6 @@
 /**
  *
- * The UI for saving account information.
+ * The UI for viewing and setting account information.
  */
 var AccountSaver = (function () {
     var m_on_save_done_function;
