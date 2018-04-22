@@ -7,20 +7,20 @@
     function init() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         Sender.render('sender');
-        goToSend();
+        displaySendUI();
     }
 
 
     /**
      * Display settings UI.
      */
-    function goToSettings() {
+    function displaySettingsUI() {
         Elem.show('settings_area').hide('send_area');
         if (Tabs.isNotEmpty()) {
             var account_id = Tabs.getIdOfActiveTab();
             var account_description = Accounts.getAccountDescription(account_id);
             var user_name = Accounts.getUserName(account_id);
-            AccountSaver.render('account_settings_area', goToSend, account_id, account_description, user_name);
+            AccountSaver.render('account_settings_area', displaySendUI, account_id, account_description, user_name);
         }
     }
 
@@ -28,7 +28,7 @@
     /**
      * Display send UI.
      */
-    function goToSend() {
+    function displaySendUI() {
         Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
         Elem.show('send_area').hide('settings_area');
     }
@@ -39,7 +39,7 @@
      */
     function createNewAccount() {
         var account_id = Accounts.getRandomAccountId();
-        AccountSaver.render('account_settings_area', goToSend, account_id, '', '');
+        AccountSaver.render('account_settings_area', displaySendUI, account_id, '', '');
     }
 
 
@@ -50,7 +50,7 @@
         var account_id = Tabs.getIdOfActiveTab();
         Accounts.removeAccount(account_id);
         Notification.notify('Account removed');
-        goToSend();
+        displaySendUI();
     }
 
 </script>
@@ -62,7 +62,7 @@
 <div id="send_area">
     <div id="tabs"></div>
     <div id="sender"></div>
-    <a href="javascript:goToSettings();">Settings</a>
+    <a href="javascript:displaySettingsUI();">Settings</a>
 </div>
 
 <div id="settings_area">
@@ -70,7 +70,7 @@
     <div id="account_settings_area"></div>
     <button type="button" onClick="createNewAccount();">Add Account</button>
     <button type="button" onclick="removeAccount();" id="remove_account">Remove Account</button>
-    <a href="javascript:goToSend();">Back</a>
+    <a href="javascript:displaySendUI();">Back</a>
 </div>
 
 <script>init();</script>
