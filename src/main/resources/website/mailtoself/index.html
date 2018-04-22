@@ -11,6 +11,9 @@
     }
 
 
+    /**
+     * Display settings UI.
+     */
     function goToSettings() {
         Elem.show('settings_area').hide('send_area');
         if (Tabs.isNotEmpty()) {
@@ -22,17 +25,33 @@
     }
 
 
+    /**
+     * Display send UI.
+     */
+    function goToSend() {
+        Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
+        Elem.show('send_area').hide('settings_area');
+    }
+
+
+    /**
+     * Displays the settings UI with empty fields for creating a new account.
+     */
     function createNewAccount() {
         var account_id = Accounts.getRandomAccountId();
         AccountSaver.render('account_settings_area', goToSend, account_id, '', '');
     }
 
 
-    function goToSend() {
-        Tabs.render('tabs', Accounts.getAccountIds(), Accounts.getAccountDescriptions());
-        Elem.show('send_area').hide('settings_area');
+    /**
+     * Removes the account of the active tab.
+     */
+    function removeAccount() {
+        var account_id = Tabs.getIdOfActiveTab();
+        Accounts.removeAccount(account_id);
+        Notification.notify('Account removed');
+        goToSend();
     }
-
 
 </script>
 
@@ -50,6 +69,7 @@
     <h1>Settings</h1>
     <div id="account_settings_area"></div>
     <button type="button" onClick="createNewAccount();">Add Account</button>
+    <button type="button" onclick="removeAccount();" id="remove_account">Remove Account</button>
     <a href="javascript:goToSend();">Back</a>
 </div>
 

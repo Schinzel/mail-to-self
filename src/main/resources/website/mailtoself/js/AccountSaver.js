@@ -12,8 +12,7 @@ var AccountSaver = (function () {
         + '<input type="text" id="user_name">'
         + '<label for="password">Gmail Password</label>'
         + '<input type="password" id="password">'
-        + '<button type="button" id="save_account">Save</button>'
-        + '<button type="button" id="remove_account">Remove Account</button>';
+        + '<button type="button" id="save_account">Save</button>';
 
 
     function _saveSettings() {
@@ -24,7 +23,8 @@ var AccountSaver = (function () {
         }
         var xhr = new XMLHttpRequest();
         xhr.onload = function () {
-            _saveToLocalStorage(xhr.responseText);
+            var encrypted_password = xhr.responseText;
+            _saveToLocalStorage(encrypted_password);
         };
         xhr.open("post", "/call/encryptPassword", true);
         //Encode so that can send special chars
@@ -46,12 +46,6 @@ var AccountSaver = (function () {
     }
 
 
-    function _removeAccount() {
-        Accounts.removeAccount(m_account_id);
-        Notification.notify('Account removed');
-        m_on_save_done_function();
-    }
-
 
     return {
         render: function (element_id, on_save_done_function, account_id, account_description, user_name) {
@@ -62,7 +56,6 @@ var AccountSaver = (function () {
             Elem.getById("user_name").value = user_name;
             Elem.getById("password").value = "";
             Elem.getById("save_account").onclick = _saveSettings;
-            Elem.getById("remove_account").onclick = _removeAccount;
         }
     }
 }());
