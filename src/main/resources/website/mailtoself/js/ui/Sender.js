@@ -4,7 +4,7 @@
  */
 var Sender = (function () {
     function _send() {
-        //The the message to email
+        //The message to email
         var mail_content = Elem.getById("mail_content").value;
         //If there was no message to send
         if (!mail_content) {
@@ -21,15 +21,15 @@ var Sender = (function () {
             Elem.getById("mail_content").focus();
         };
         //Create request
-        xhr.open("post", "/call/mailMe", true);
+        xhr.open("post", "/api/mailMe", true);
         var id = Tabs.getIdOfActiveTab();
         var user_name = Accounts.getUserName(id);
         var password = Accounts.getEncryptedPassword(id);
         //Send request to server
         xhr.send(
-            "Message=" + encodeURIComponent(mail_content)
-            + "&Username=" + encodeURIComponent(user_name)
-            + "&Password=" + encodeURIComponent(password)
+            "message=" + encodeURIComponent(mail_content)
+            + "&username=" + encodeURIComponent(user_name)
+            + "&password=" + encodeURIComponent(password)
         );
     }
 

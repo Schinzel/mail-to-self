@@ -4,8 +4,8 @@ import com.atexpose.Expose;
 import com.atexpose.util.mail.GmailEmailSender;
 import io.schinzel.basicutils.RandomUtil;
 import io.schinzel.basicutils.configvar.ConfigVar;
-import io.schinzel.basicutils.crypto.CipherLibrary;
-import io.schinzel.basicutils.crypto.cipher.Aes256Gcm;
+import io.schinzel.crypto.CipherLibrary;
+import io.schinzel.crypto.cipher.Aes256Gcm;
 
 /**
  * The purpose of this class is to hold the API methods.
@@ -29,7 +29,7 @@ class API {
 
     @Expose(
             requiredArgumentCount = 3,
-            arguments = {"Message", "Username", "Password"},
+            arguments = {"message", "username", "password"},
             description = "Sends an email",
             theReturn = "Status of operation message")
     String mailMe(final String message, final String username, final String password) {
@@ -41,7 +41,11 @@ class API {
         final String subjectWithoutWhitespace = subject.replaceAll("\\s", " ");
         final String clearTextPassword = mCipherLibrary.decrypt(password);
         Runnable r = () -> new GmailEmailSender(username, clearTextPassword)
-                .send(username, subjectWithoutWhitespace, message, "Me");
+                .setSubject(subjectWithoutWhitespace)
+                .setBody(message)
+                .setFromName("Me")
+                .setRecipientEmailAddress(username)
+                .send();
         new Thread(r, "email-send-thread").start();
         return "Mail sent: '" + subject + "'";
     }
@@ -49,10 +53,23 @@ class API {
 
     @Expose(
             requiredArgumentCount = 1,
-            arguments = {"Password"},
+            arguments = {"password"},
             description = "Encrypts the argument password",
             theReturn = "The argument password encrypted")
     String encryptPassword(String password) {
         return mCipherLibrary.encrypt(1, password);
+    }
+
+
+    @Expose
+    String doIt(){
+        return "apa";
+    }
+
+    @Expose(
+            arguments = {"Message"}
+    )
+    String doIt2(String message){
+        return "Received a message '" + message + "'";
     }
 }

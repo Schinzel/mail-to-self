@@ -26,10 +26,10 @@ var AccountSaver = (function () {
             var encrypted_password = xhr.responseText;
             _saveToLocalStorage(encrypted_password);
         };
-        xhr.open("post", "/call/encryptPassword", true);
+        xhr.open("post", "/api/encryptPassword", true);
         //Encode so that can send special chars
-        var mail_content = encodeURIComponent(password);
-        xhr.send("Password=" + mail_content);
+        var passwordEncoded = encodeURIComponent(password);
+        xhr.send("password=" + passwordEncoded);
     }
 
 
